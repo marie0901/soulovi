@@ -22,6 +22,7 @@ contract NFTMarketplace is ERC721URIStorage {
       address payable seller;
       address payable owner;
       uint256 price;
+      string tokenURI;
       bool sold;
     }
 
@@ -30,12 +31,25 @@ contract NFTMarketplace is ERC721URIStorage {
       address seller,
       address owner,
       uint256 price,
+      string tokenURI,
       bool sold
     );
 
     constructor() ERC721("Metaverse Tokens", "METT") {
       owner = payable(msg.sender);
     }
+
+
+  /// @notice Returns the chain id of the current blockchain.
+  /// @dev This is used to workaround an issue with ganache returning different values from the on-chain chainid() function and
+  ///  the eth_chainId RPC method. See https://github.com/protocol/nft-website/issues/121 for context.
+  function getChainID() external view returns (uint256) {
+    uint256 id;
+    assembly {
+        id := chainid()
+    }
+    return id;
+  }
 
     /* Updates the listing price of the contract */
     function updateListingPrice(uint _listingPrice) public payable {
@@ -48,38 +62,47 @@ contract NFTMarketplace is ERC721URIStorage {
       return listingPrice;
     }
 
-    /* Mints a token and lists it in the marketplace */
+    /* Returns the listing price of the contract */
+    function getCurrentTokenId() public view returns (uint256) {
+      return _tokenIds.current();
+    }
+    
+
+    /* List token in the marketplace without minting */
     function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
       _tokenIds.increment();
       uint256 newTokenId = _tokenIds.current();
 
-      _mint(msg.sender, newTokenId);
-      _setTokenURI(newTokenId, tokenURI);
-      createMarketItem(newTokenId, price);
+      // _mint(msg.sender, newTokenId);
+      // _setTokenURI(newTokenId, tokenURI);
+      createMarketItem(newTokenId, price, tokenURI);
       return newTokenId;
     }
 
     function createMarketItem(
       uint256 tokenId,
-      uint256 price
+      uint256 price,
+      string memory tokenURI
     ) private {
-      require(price > 0, "Price must be at least 1 wei");
-      require(msg.value == listingPrice, "Price must be equal to listing price");
+      // require(price > 0, "Price must be at least 1 wei");
+      // require(msg.value == listingPrice, "Price must be equal to listing price");
 
       idToMarketItem[tokenId] =  MarketItem(
         tokenId,
         payable(msg.sender),
         payable(address(this)),
         price,
+        tokenURI,
         false
       );
 
-      _transfer(msg.sender, address(this), tokenId);
+      // _transfer(msg.sender, address(this), tokenId);
       emit MarketItemCreated(
         tokenId,
         msg.sender,
         address(this),
         price,
+        tokenURI,
         false
       );
     }

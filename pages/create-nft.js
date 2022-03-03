@@ -1,8 +1,19 @@
 import { useState } from "react";
 import { ethers } from "ethers";
+
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { useRouter } from "next/router";
 import Web3Modal from "web3modal";
+
+import { LazyMinter } from "@components/LazyMinter";
+
+// const hardhat = require("hardhat");
+// const { hEthers } = hardhat;
+
+// const mmm = async function () {
+//   const [minter, redeemer, _] = await hEthers.getSigners();
+//   // console.log("minter", minter);
+// };
 
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
@@ -65,13 +76,22 @@ export default function CreateItem() {
       NFTMarketplace.abi,
       signer
     );
+
+    /* lazy minting */
+    const lazyminter = new LazyMinter({ contract, signer });
+    const tokenId = await contract.getCurrentTokenId();
+    const voucher = await lazyminter.createVoucher(tokenId, `${url}`);
+    console.log("!!!!voucher", voucher);
+    /////////////////
+
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
+    // console.log("!!!!1111");
     let transaction = await contract.createToken(url, price, {
-      value: listingPrice,
+      // value: listingPrice,
     });
     await transaction.wait();
-
+    // console.log("!!!!22222");
     router.push("/");
   }
 

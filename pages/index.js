@@ -36,7 +36,8 @@ export default function Home() {
      */
     const items = await Promise.all(
       data.map(async (i) => {
-        const tokenUri = await contract.tokenURI(i.tokenId);
+        // const tokenUri = await contract.tokenURI(i.tokenId);
+        const tokenUri = i.tokenURI;
         const meta = await axios.get(tokenUri);
         let price = ethers.utils.formatUnits(i.price.toString(), "ether");
         let item = {
