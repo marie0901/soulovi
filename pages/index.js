@@ -6,6 +6,9 @@ import Web3Modal from "web3modal";
 import { marketplaceAddress } from "../config";
 
 import NFTMarketplace from "../utils/NFTMarketplace.json";
+if (typeof window === "undefined") {
+  require("dotenv").config();
+}
 
 export default function Home() {
   const [nfts, setNfts] = useState([]);
@@ -15,7 +18,11 @@ export default function Home() {
   }, []);
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
-    const provider = new ethers.providers.JsonRpcProvider();
+    // const provider = new ethers.providers.JsonRpcProvider();
+    const provider = new ethers.providers.AlchemyProvider(
+      "rinkeby",
+      process.env.ALCHEMY_API_KEY
+    );
     const contract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,

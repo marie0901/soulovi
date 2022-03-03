@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config();
 
 module.exports = {
   defaultNetwork: "hardhat",
@@ -11,6 +12,10 @@ module.exports = {
     //    url: "https://rpc-mumbai.maticvigil.com",
     //    accounts: [process.env.privateKey]
     //  }
+    rinkeby: {
+      url: `${process.env.ALCHEMY_RINKEBY_URL}`,
+      accounts: [`0x${process.env.RINKEBY_PRIVATE_KEY}`],
+    },
   },
   solidity: {
     version: "0.8.4",
