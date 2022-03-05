@@ -1,3 +1,6 @@
+import Link from "next/link";
+import Image from "next/image";
+
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -14,98 +17,72 @@ export default function Home() {
   const [nfts, setNfts] = useState([]);
   const [loadingState, setLoadingState] = useState("not-loaded");
   useEffect(() => {
-    loadNFTs();
+    // loadNFTs();
   }, []);
-  async function loadNFTs() {
-    /* create a generic provider and query for unsold market items */
-    // const provider = new ethers.providers.JsonRpcProvider();
-    const provider = new ethers.providers.AlchemyProvider(
-      "rinkeby",
-      process.env.ALCHEMY_API_KEY
-    );
-    const contract = new ethers.Contract(
-      marketplaceAddress,
-      NFTMarketplace.abi,
-      provider
-    );
-    const data = await contract.fetchMarketItems();
 
-    /*
-     *  map over items returned from smart contract and format
-     *  them as well as fetch their token metadata
-     */
-    const items = await Promise.all(
-      data.map(async (i) => {
-        // const tokenUri = await contract.tokenURI(i.tokenId);
-        const tokenUri = i.tokenURI;
-        const meta = await axios.get(tokenUri);
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-        let item = {
-          price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          image: meta.data.image,
-          name: meta.data.name,
-          description: meta.data.description,
-        };
-        return item;
-      })
-    );
-    setNfts(items);
-    setLoadingState("loaded");
-  }
-  async function buyNft(nft) {
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      marketplaceAddress,
-      NFTMarketplace.abi,
-      signer
-    );
-
-    /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
-    const transaction = await contract.createMarketSale(nft.tokenId, {
-      value: price,
-    });
-    await transaction.wait();
-    loadNFTs();
-  }
   if (loadingState === "loaded" && !nfts.length)
     return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
   return (
-    <div className="flex justify-center">
-      <div className="px-4" style={{ maxWidth: "1600px" }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-          {nfts.map((nft, i) => (
-            <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <img src={nft.image} />
-              <div className="p-4">
-                <p
-                  style={{ height: "64px" }}
-                  className="text-2xl font-semibold"
-                >
-                  {nft.name}
-                </p>
-                <div style={{ height: "70px", overflow: "hidden" }}>
-                  <p className="text-gray-400">{nft.description}</p>
+    <div className="container px-6 mx-auto flex flex-col justify-center">
+      <div className="flex flex-col my-6">
+        <div className="flex">
+          <div className=" font-hanson text-7xl text-ukrblue tracking-wider">
+            SUPPORT
+          </div>
+          <div className="text-gray-500 text-xs font-mono pl-3 pt-2 tracking-widest">
+            &#40;Non-Profit Platform&#41;
+          </div>
+        </div>
+        <div className="flex flex-wrap">
+          <div className="grow-0 shrink-0 basis-auto w-full md:w-3/12 lg:w-4/12">
+            <div className="flex justify-center">
+              <div className="p-4 rounded-lg shadow-lg bg-white max-w-sm">
+                <a href="#!">
+                  <img className="rounded-t-lg" src="/images/nft0.png" alt="" />
+                </a>
+                <div className="p-6">
+                  <div className="text-gray-900 text-xl font-medium mb-2">
+                    Stand with Ukraine
+                  </div>
+                  <p className="text-gray-400 font-mono text-xs">Axionov</p>
                 </div>
               </div>
-              <div className="p-4 bg-black">
-                <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
-                <button
-                  className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
-                  onClick={() => buyNft(nft)}
-                >
-                  Buy
-                </button>
-              </div>
             </div>
-          ))}
+          </div>
+
+          <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12 md:pl-12 text-center md:text-left">
+            <div className="font-hanson text-7xl text-ukryellow tracking-wider">
+              UKRAINE
+            </div>
+            <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
+              <p className="text-xs">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Distinctio est ab iure inventore dolorum consectetur? Molestiae
+                aperiam atque quasi consequatur aut? Repellendus alias dolor ad
+                nam, soluta distinctio quis accusantium!
+              </p>
+            </div>
+            <div className="mb-6 mt-12 flex space-x-4 justify-center md:justify-start">
+              <Link href="/create-nft">
+                <a
+                  href="#"
+                  className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
+                  aria-current="page"
+                >
+                  Explore
+                </a>
+              </Link>
+              <Link href="/create-nft">
+                <a
+                  href="#"
+                  className="text-center w-28 border border-gray-400 rounded-full  text-gray-500 px-4 py-2  text-sm font-medium"
+                  aria-current="page"
+                >
+                  Create
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
