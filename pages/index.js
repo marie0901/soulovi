@@ -56,14 +56,14 @@ export default function Home() {
             </div>
             <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
               <p className="text-xs">
-                RRR Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Distinctio est ab iure inventore dolorum consectetur? Molestiae
                 aperiam atque quasi consequatur aut? Repellendus alias dolor ad
                 nam, soluta distinctio quis accusantium!
               </p>
             </div>
             <div className="mb-6 mt-12 flex space-x-4 justify-center md:justify-start">
-              <Link href="/create-nft">
+              <Link href="/all-nfts">
                 <a
                   href="#"
                   className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
