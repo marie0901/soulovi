@@ -56,7 +56,7 @@ export default function Home() {
             </div>
             <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
               <p className="text-xs">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                RRR Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Distinctio est ab iure inventore dolorum consectetur? Molestiae
                 aperiam atque quasi consequatur aut? Repellendus alias dolor ad
                 nam, soluta distinctio quis accusantium!
