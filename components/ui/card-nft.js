@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function CardNft({ i, nft }) {
   console.log("!!!!!nft:", nft);
   return (
-    <div key={i} className="flex flex-wrap border-4 border-red-700">
+    <div key={i} className="flex flex-wrap ">
       <div className="grow-0 shrink-0 basis-auto w-full ">
         <div className="flex justify-center ">
           <div className="w-full p-4 rounded-lg shadow-lg bg-white max-w-sm">
@@ -16,7 +16,7 @@ export default function CardNft({ i, nft }) {
                 alt={nft.name}
               />
             </a>
-            <div className="p-0 border-4 border-blue-700 flex">
+            <div className="p-0  flex">
               <div className=" mb-2 w-3/4">
                 <div className="text-gray-900 text-xl font-medium mb-2  truncate">
                   {nft.name}
