@@ -10,7 +10,7 @@ module.exports = {
     fontFamily: {
       sans: ["ui-sans-serif", "system-ui"],
       serif: ["ui-serif", "Georgia"],
-      mono: ["ui-monospace", "SFMono-Regular"],
+      mono: ["SFMono-Regular", "Menlo"],
       hanson: ["Rubik Mono One", "ui-sans-serif"],
     },
     colors: {
