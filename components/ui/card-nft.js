@@ -9,13 +9,16 @@ export default function CardNft({ i, nft }) {
       <div className="grow-0 shrink-0 basis-auto w-full ">
         <div className="flex justify-center ">
           <div className="w-full p-4 rounded-lg shadow-lg bg-white max-w-sm">
-            <a href="#!">
-              <img
-                className="w-full object-cover h-48 shadow-lg rounded-lg mb-6"
-                src={nft.image}
-                alt={nft.name}
-              />
-            </a>
+            {/* <Link href={`/nfts/${nft.id}`}> */}
+            <Link href={`/nfts/1`}>
+              <a href="#!">
+                <img
+                  className="w-full object-cover h-48 shadow-lg rounded-lg mb-6"
+                  src={nft.image}
+                  alt={nft.name}
+                />
+              </a>
+            </Link>
             <div className="p-0  flex">
               <div className=" mb-2 w-3/4">
                 <div className="text-gray-900 text-xl font-medium mb-2  truncate">
