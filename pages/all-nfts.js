@@ -86,7 +86,7 @@ export default function Home() {
     return (
       <div className="container">
         <div className="flex px-4 py-4">
-          <h2 class="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
+          <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
             All NFTs
           </h2>
           <div className="text-gray-500 text-xs font-mono pl-3 pt-6 tracking-widest align-bottom">
@@ -100,7 +100,7 @@ export default function Home() {
   return (
     <div className="container">
       <div className="flex px-4 py-4">
-        <h2 class="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
+        <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
           All NFTs
         </h2>
         <div className="text-gray-500 text-xs font-mono pl-3 pt-6 tracking-widest align-bottom">
