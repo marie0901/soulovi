@@ -78,20 +78,20 @@ export default function CreateItem() {
     );
 
     /* lazy minting */
-    const lazyminter = new LazyMinter({ contract, signer });
+    const lazyminter = new LazyMinter({ contract, signer, price });
     const tokenId = await contract.getCurrentTokenId();
-    const voucher = await lazyminter.createVoucher(tokenId, `${url}`);
+    const voucher = await lazyminter.createVoucher(+tokenId + 1, `${url}`);
     console.log("!!!!voucher", voucher);
     /////////////////
 
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
     // console.log("!!!!1111");
-    let transaction = await contract.createToken(url, price, {
-      // value: listingPrice,
+    let transaction = await contract.createToken(voucher, {
+      value: listingPrice,
     });
-    await transaction.wait();
     // console.log("!!!!22222");
+    await transaction.wait();
     router.push("/");
   }
 

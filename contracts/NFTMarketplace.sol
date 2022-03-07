@@ -1,16 +1,39 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
+pragma abicoder v2; // required to accept structs as function parameters
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "hardhat/console.sol";
 
-contract NFTMarketplace is ERC721URIStorage {
+contract NFTMarketplace is ERC721URIStorage, EIP712, AccessControl {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
+
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    string private constant SIGNING_DOMAIN = "LazyNFT-Voucher";
+    string private constant SIGNATURE_VERSION = "1";
+    
+     mapping (address => uint256) pendingWithdrawals;
+    /// @notice Represents an un-minted NFT, which has not yet been recorded into the blockchain. A signed voucher can be redeemed for a real NFT using the redeem function.
+    struct NFTVoucher {
+        /// @notice The id of the token to be redeemed. Must be unique - if another token with this ID already exists, the redeem function will revert.
+        uint256 tokenId;
+
+        /// @notice The minimum price (in wei) that the NFT creator is willing to accept for the initial sale of this NFT.
+        uint256 price;
+
+        /// @notice The metadata URI to associate with this token.
+        string uri;
+
+        /// @notice the EIP-712 signature of all other fields in the NFTVoucher struct. For a voucher to be valid, it must be signed by an account with the MINTER_ROLE.
+        bytes signature;
+    }
 
     uint256 listingPrice = 0.00025 ether;
     address payable owner;
@@ -35,21 +58,12 @@ contract NFTMarketplace is ERC721URIStorage {
       bool sold
     );
 
-    constructor() ERC721("Metaverse Tokens", "METT") {
+  constructor(address payable minter)
+    ERC721("UkrainianArtistsNFT", "SLV") 
+    EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {
+      _setupRole(MINTER_ROLE, minter);
       owner = payable(msg.sender);
     }
-
-
-  /// @notice Returns the chain id of the current blockchain.
-  /// @dev This is used to workaround an issue with ganache returning different values from the on-chain chainid() function and
-  ///  the eth_chainId RPC method. See https://github.com/protocol/nft-website/issues/121 for context.
-  function getChainID() external view returns (uint256) {
-    uint256 id;
-    assembly {
-        id := chainid()
-    }
-    return id;
-  }
 
     /* Updates the listing price of the contract */
     function updateListingPrice(uint _listingPrice) public payable {
@@ -69,13 +83,25 @@ contract NFTMarketplace is ERC721URIStorage {
     
 
     /* List token in the marketplace without minting */
-    function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
+    function createToken(
+        // string memory tokenURI, uint256 price
+     NFTVoucher calldata voucher) public payable returns (uint) {
+
+// make sure signature is valid and get the address of the signer
+    address signer = _verify(voucher);
+
+    // make sure that the signer is authorized to mint NFTs
+    require(hasRole(MINTER_ROLE, signer), "Signature invalid or unauthorized");
+    require(voucher.tokenId == (_tokenIds.current() +1), "TokenId in the voucher is not valid any more");
+
+
+
       _tokenIds.increment();
       uint256 newTokenId = _tokenIds.current();
 
       // _mint(msg.sender, newTokenId);
       // _setTokenURI(newTokenId, tokenURI);
-      createMarketItem(newTokenId, price, tokenURI);
+      createMarketItem(newTokenId, voucher.price, voucher.uri);
       return newTokenId;
     }
 
@@ -120,41 +146,56 @@ contract NFTMarketplace is ERC721URIStorage {
       _transfer(msg.sender, address(this), tokenId);
     }
 
-    /* Creates the sale of a marketplace item */
-    /* Transfers ownership of the item, as well as funds between parties */
-    function createMarketSale(
-      uint256 tokenId
 
-            ) public payable {
+/// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
+  /// @param redeemer The address of the account which will receive the NFT upon success.
+  /// @param voucher A signed NFTVoucher that describes the NFT to be redeemed.
+//   function redeem(address redeemer, NFTVoucher calldata voucher) public payable returns (uint256) {
+//     // make sure signature is valid and get the address of the signer
+//     address signer = _verify(voucher);
+
+//     // make sure that the signer is authorized to mint NFTs
+//     require(hasRole(MINTER_ROLE, signer), "Signature invalid or unauthorized");
+
+//     // make sure that the redeemer is paying enough to cover the buyer's cost
+//     require(msg.value >= voucher.minPrice, "Insufficient funds to redeem");
+
+//     // first assign the token to the signer, to establish provenance on-chain
+//     _mint(signer, voucher.tokenId);
+//     _setTokenURI(voucher.tokenId, voucher.uri);
+    
+//     // transfer the token to the redeemer
+//     _transfer(signer, redeemer, voucher.tokenId);
+
+//     // record payment to signer's withdrawal balance
+//     pendingWithdrawals[signer] += msg.value;
+
+//     return voucher.tokenId;
+//   }
+
+
+/// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
+/// @notice Creates the sale of a marketplace item 
+    function createMarketSale(
+     uint256 tokenId ) public payable {
+  
       uint price = idToMarketItem[tokenId].price;
       address seller = idToMarketItem[tokenId].seller;
-      require(msg.value == price, "Please submit the asking price in order to complete the purchase");
+require(msg.value >= price, "Insufficient funds to redeem");
+// require if tokenId is not sold
+
+    // first assign the token to the signer, to establish provenance on-chain
+    _mint(seller, tokenId);
+    _setTokenURI(tokenId, idToMarketItem[tokenId].tokenURI);
+
       idToMarketItem[tokenId].owner = payable(msg.sender);
       idToMarketItem[tokenId].sold = true;
       idToMarketItem[tokenId].seller = payable(address(0));
       _itemsSold.increment();
-      // _transfer(address(this), msg.sender, tokenId);
-      // payable(owner).transfer(listingPrice);
-      // payable(idToMarketItem[tokenId].seller).transfer(msg.value);
-      // payable(seller).transfer(msg.value);
+      _transfer(seller, msg.sender, tokenId);
+      payable(owner).transfer(listingPrice);
+      payable(seller).transfer(msg.value);
     }
-
-    //   ) public payable {
-    //   uint price = idToMarketItem[tokenId].price;
-    //   address seller = idToMarketItem[tokenId].seller;
-    //   require(msg.value == price, "Please submit the asking price in order to complete the purchase");
-    //   idToMarketItem[tokenId].owner = payable(msg.sender);
-    //   idToMarketItem[tokenId].sold = true;
-    //   idToMarketItem[tokenId].seller = payable(address(0));
-    //   _itemsSold.increment();
-    //   _transfer(address(this), msg.sender, tokenId);
-    //   payable(owner).transfer(listingPrice);
-    //   payable(idToMarketItem[tokenId].seller).transfer(msg.value);
-    //   payable(seller).transfer(msg.value);
-    // }
-
-
-
 
     /* Returns all unsold market items */
     function fetchMarketItems() public view returns (MarketItem[] memory) {
@@ -221,4 +262,61 @@ contract NFTMarketplace is ERC721URIStorage {
       }
       return items;
     }
+
+//////////////////////////////// Lazy Minting Part ///////////////////////////////////////
+  /// @notice Transfers all pending withdrawal balance to the caller. Reverts if the caller is not an authorized minter.
+  function withdraw() public {
+    require(hasRole(MINTER_ROLE, msg.sender), "Only authorized minters can withdraw");
+    
+    // IMPORTANT: casting msg.sender to a payable address is only safe if ALL members of the minter role are payable addresses.
+    address payable receiver = payable(msg.sender);
+
+    uint amount = pendingWithdrawals[receiver];
+    // zero account before transfer to prevent re-entrancy attack
+    pendingWithdrawals[receiver] = 0;
+    receiver.transfer(amount);
+  }
+
+  /// @notice Retuns the amount of Ether available to the caller to withdraw.
+  function availableToWithdraw() public view returns (uint256) {
+    return pendingWithdrawals[msg.sender];
+  }
+
+  /// @notice Returns a hash of the given NFTVoucher, prepared using EIP712 typed data hashing rules.
+  /// @param voucher An NFTVoucher to hash.
+  function _hash(NFTVoucher calldata voucher) internal view returns (bytes32) {
+    return _hashTypedDataV4(keccak256(abi.encode(
+      keccak256("NFTVoucher(uint256 tokenId,uint256 price,string uri)"),
+      voucher.tokenId,
+      voucher.price,
+      keccak256(bytes(voucher.uri))
+    )));
+  }
+
+  /// @notice Returns the chain id of the current blockchain.
+  /// @dev This is used to workaround an issue with ganache returning different values from the on-chain chainid() function and
+  ///  the eth_chainId RPC method. See https://github.com/protocol/nft-website/issues/121 for context.
+  function getChainID() external view returns (uint256) {
+    uint256 id;
+    assembly {
+        id := chainid()
+    }
+    return id;
+  }
+
+
+
+
+  /// @notice Verifies the signature for a given NFTVoucher, returning the address of the signer.
+  /// @dev Will revert if the signature is invalid. Does not verify that the signer is authorized to mint NFTs.
+  /// @param voucher An NFTVoucher describing an unminted NFT.
+  function _verify(NFTVoucher calldata voucher) internal view returns (address) {
+    bytes32 digest = _hash(voucher);
+    return ECDSA.recover(digest, voucher.signature);
+  }
+
+  function supportsInterface(bytes4 interfaceId) public view virtual override (AccessControl, ERC721) returns (bool) {
+    return ERC721.supportsInterface(interfaceId) || AccessControl.supportsInterface(interfaceId);
+  }
+
 }

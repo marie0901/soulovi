@@ -10,14 +10,13 @@ import Link from "next/link";
 // import { AnimateKeyframes } from "react-simple-animate";
 
 export default function CardNft({ i, nft }) {
-  console.log("!!!!!nft:", nft);
-
   async function buyNft(nft) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
+    console.log("!!!!!nft:", nft);
     const contract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,
