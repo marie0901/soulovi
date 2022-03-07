@@ -1,9 +1,38 @@
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+
+import { marketplaceAddress } from "config";
+
+import NFTMarketplace from "@utils/NFTMarketplace.json";
+
 import Image from "next/image";
 import Link from "next/link";
 // import { AnimateKeyframes } from "react-simple-animate";
 
 export default function CardNft({ i, nft }) {
   console.log("!!!!!nft:", nft);
+
+  async function buyNft(nft) {
+    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      marketplaceAddress,
+      NFTMarketplace.abi,
+      signer
+    );
+
+    /* user will be prompted to pay the asking proces to complete the transaction */
+    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+    const transaction = await contract.createMarketSale(nft.tokenId, {
+      value: price,
+    });
+    await transaction.wait();
+    // loadNFTs();
+  }
+
   return (
     <div key={i} className="flex flex-wrap ">
       <div className="grow-0 shrink-0 basis-auto w-full ">
@@ -39,6 +68,14 @@ export default function CardNft({ i, nft }) {
                   <div className="pt-1">{nft.price}</div>
                 </div>
               </div>
+            </div>
+            <div className="p-4 bg-black">
+              <button
+                className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
+                onClick={() => buyNft(nft)}
+              >
+                Buy
+              </button>
             </div>
           </div>
         </div>
