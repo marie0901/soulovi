@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
 
-import { marketplaceAddress } from "../config";
 import CardNft from "@components/ui/card-nft";
+import NFTMarketplace from "@utils/NFTMarketplace.json";
 
-import NFTMarketplace from "../utils/NFTMarketplace.json";
+import { marketplaceAddress } from "../../config";
+
 if (typeof window === "undefined") {
   require("dotenv").config();
 }

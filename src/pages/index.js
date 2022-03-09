@@ -1,14 +1,7 @@
-import Link from "next/link";
-import Image from "next/image";
-
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Web3Modal from "web3modal";
+import Link from "next/link";
 
-import { marketplaceAddress } from "../config";
 
-import NFTMarketplace from "../utils/NFTMarketplace.json";
 if (typeof window === "undefined") {
   require("dotenv").config();
 }

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
 
-import { marketplaceAddress } from "../config";
+import { marketplaceAddress } from "../../config";
 
-import NFTMarketplace from "../utils/NFTMarketplace.json";
+import NFTMarketplace from "@utils/NFTMarketplace.json";
 
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([]);

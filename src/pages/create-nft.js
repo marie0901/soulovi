@@ -17,18 +17,20 @@ import { LazyMinter } from "@components/LazyMinter";
 
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
-import { marketplaceAddress } from "../config";
+import { marketplaceAddress } from "../../config";
 
-import NFTMarketplace from "../utils/NFTMarketplace.json";
+import NFTMarketplace from "@utils/NFTMarketplace.json";
 
 export default function CreateItem() {
+  const router = useRouter();
+  
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, updateFormInput] = useState({
     price: "",
     name: "",
     description: "",
   });
-  const router = useRouter();
+  
 
   async function onChange(e) {
     /* upload image to IPFS */
@@ -98,6 +100,7 @@ export default function CreateItem() {
   return (
     <div className="flex justify-center">
       <div className="w-1/2 flex flex-col pb-12">
+        <div>yooo</div>
         <input
           placeholder="Asset Name"
           className="mt-8 border rounded p-4"
