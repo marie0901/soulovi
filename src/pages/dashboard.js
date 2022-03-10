@@ -1,21 +1,21 @@
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Web3Modal from "web3modal";
+import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Web3Modal from 'web3modal';
 
-import { marketplaceAddress } from "../../config";
+import { marketplaceAddress } from '../../config';
 
-import NFTMarketplace from "@utils/NFTMarketplace.json";
+import NFTMarketplace from '@utils/NFTMarketplace.json';
 
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([]);
-  const [loadingState, setLoadingState] = useState("not-loaded");
+  const [loadingState, setLoadingState] = useState('not-loaded');
   useEffect(() => {
     loadNFTs();
   }, []);
   async function loadNFTs() {
     const web3Modal = new Web3Modal({
-      network: "mainnet",
+      network: 'mainnet',
       cacheProvider: true,
     });
     const connection = await web3Modal.connect();
@@ -30,10 +30,10 @@ export default function CreatorDashboard() {
     const data = await contract.fetchItemsListed();
 
     const items = await Promise.all(
-      data.map(async (i) => {
+      data.map(async i => {
         const tokenUri = await contract.tokenURI(i.tokenId);
         const meta = await axios.get(tokenUri);
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
         let item = {
           price,
           tokenId: i.tokenId.toNumber(),
@@ -46,9 +46,9 @@ export default function CreatorDashboard() {
     );
 
     setNfts(items);
-    setLoadingState("loaded");
+    setLoadingState('loaded');
   }
-  if (loadingState === "loaded" && !nfts.length)
+  if (loadingState === 'loaded' && !nfts.length)
     return <h1 className="py-10 px-20 text-3xl">No NFTs listed</h1>;
   return (
     <div>

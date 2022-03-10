@@ -1,48 +1,35 @@
-import { useState } from "react";
-import { ethers } from "ethers";
+import { LazyMinter } from '@components/LazyMinter';
+import NFTMarketplace from '@utils/NFTMarketplace.json';
+import { ethers } from 'ethers';
+import { create as ipfsHttpClient } from 'ipfs-http-client';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Web3Modal from 'web3modal';
+import { marketplaceAddress } from '../../config';
 
-import { create as ipfsHttpClient } from "ipfs-http-client";
-import { useRouter } from "next/router";
-import Web3Modal from "web3modal";
-
-import { LazyMinter } from "@components/LazyMinter";
-
-// const hardhat = require("hardhat");
-// const { hEthers } = hardhat;
-
-// const mmm = async function () {
-//   const [minter, redeemer, _] = await hEthers.getSigners();
-//   // console.log("minter", minter);
-// };
-
-const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
-
-import { marketplaceAddress } from "../../config";
-
-import NFTMarketplace from "@utils/NFTMarketplace.json";
+const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
 export default function CreateItem() {
   const router = useRouter();
-  
+
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, updateFormInput] = useState({
-    price: "",
-    name: "",
-    description: "",
+    price: '',
+    name: '',
+    description: '',
   });
-  
 
   async function onChange(e) {
     /* upload image to IPFS */
     const file = e.target.files[0];
     try {
       const added = await client.add(file, {
-        progress: (prog) => console.log(`received: ${prog}`),
+        progress: prog => console.log(`received: ${prog}`),
       });
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       setFileUrl(url);
     } catch (error) {
-      console.log("Error uploading file: ", error);
+      console.log('Error uploading file: ', error);
     }
   }
   async function uploadToIPFS() {
@@ -60,7 +47,7 @@ export default function CreateItem() {
       /* after metadata is uploaded to IPFS, return the URL to use it in the transaction */
       return url;
     } catch (error) {
-      console.log("Error uploading file: ", error);
+      console.log('Error uploading file: ', error);
     }
   }
 
@@ -72,7 +59,7 @@ export default function CreateItem() {
     const signer = provider.getSigner();
 
     /* create the NFT */
-    const price = ethers.utils.parseUnits(formInput.price, "ether");
+    const price = ethers.utils.parseUnits(formInput.price, 'ether');
     let contract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,
@@ -83,7 +70,7 @@ export default function CreateItem() {
     const lazyminter = new LazyMinter({ contract, signer });
     const tokenId = await contract.getCurrentTokenId();
     const voucher = await lazyminter.createVoucher(tokenId, `${url}`);
-    console.log("!!!!voucher", voucher);
+    console.log('!!!!voucher', voucher);
     /////////////////
 
     let listingPrice = await contract.getListingPrice();
@@ -94,42 +81,60 @@ export default function CreateItem() {
     });
     await transaction.wait();
     // console.log("!!!!22222");
-    router.push("/");
+    router.push('/');
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/2 flex flex-col pb-12">
-        <div>yooo</div>
-        <input
-          placeholder="Asset Name"
-          className="mt-8 border rounded p-4"
-          onChange={(e) =>
-            updateFormInput({ ...formInput, name: e.target.value })
-          }
-        />
-        <textarea
-          placeholder="Asset Description"
-          className="mt-2 border rounded p-4"
-          onChange={(e) =>
-            updateFormInput({ ...formInput, description: e.target.value })
-          }
-        />
-        <input
-          placeholder="Asset Price in Eth"
-          className="mt-2 border rounded p-4"
-          onChange={(e) =>
-            updateFormInput({ ...formInput, price: e.target.value })
-          }
-        />
-        <input type="file" name="Asset" className="my-4" onChange={onChange} />
-        {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />}
-        <button
-          onClick={listNFTForSale}
-          className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg"
-        >
-          Create NFT
-        </button>
+    <div className="container max-w-[1980px] h-full flex flex-row">
+      <div className="w-1/2 flex h-full flex-col pr-5 border-box border-r border-stone-100">
+        <div className="w-full max-w-2xl max-h-96 h-5/6 rounded-2xl border border-stone-100">
+          <input
+            d="media"
+            name="media"
+            accept="image/*,video/*,audio/*,webgl/*,.glb,.gltf"
+            type="file"
+            autoComplete="off"
+            tabIndex="-1"
+            className="hidden"
+            onChange={onChange}
+          />
+          <i></i>
+        </div>
+
+        {/* {fileUrl && <Image className="rounded mt-4" width="350" src={fileUrl} />} */}
+      </div>
+      <div className="w-1/2 flex h-full flex-col pl-5 border-box">
+        <div className="w-1/2 flex flex-col max-w-2xl">
+          <div className="flex flex-col border-box pb-6 border-b border-dashed border-stone-100">
+            <input
+              placeholder="Asset Name"
+              className="mt-8 border rounded p-4"
+              onChange={e =>
+                updateFormInput({ ...formInput, name: e.target.value })
+              }
+            />
+            <textarea
+              placeholder="Asset Description"
+              className="mt-2 border rounded p-4"
+              onChange={e =>
+                updateFormInput({
+                  ...formInput,
+                  description: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="flex flex-col justify-between">
+            <input
+              placeholder="Asset Price in Eth"
+              className="mt-2 border rounded p-4 mb-"
+              onChange={e =>
+                updateFormInput({ ...formInput, price: e.target.value })
+              }
+            />
+            <button>List Item</button>
+          </div>
+        </div>
       </div>
     </div>
   );

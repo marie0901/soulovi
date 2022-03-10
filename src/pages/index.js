@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-
-if (typeof window === "undefined") {
-  require("dotenv").config();
+if (typeof window === 'undefined') {
+  require('dotenv').config();
 }
 
 export default function Home() {
   const [nfts, setNfts] = useState([]);
-  const [loadingState, setLoadingState] = useState("not-loaded");
+  const [loadingState, setLoadingState] = useState('not-loaded');
   useEffect(() => {
     // loadNFTs();
   }, []);
 
-  if (loadingState === "loaded" && !nfts.length)
+  if (loadingState === 'loaded' && !nfts.length)
     return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
   return (
     <div className="container px-6 mx-auto flex flex-col justify-center">

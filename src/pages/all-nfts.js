@@ -1,20 +1,20 @@
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Web3Modal from "web3modal";
+import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Web3Modal from 'web3modal';
 
-import CardNft from "@components/ui/card-nft";
-import NFTMarketplace from "@utils/NFTMarketplace.json";
+import CardNft from '@components/ui/card-nft';
+import NFTMarketplace from '@utils/NFTMarketplace.json';
 
-import { marketplaceAddress } from "../../config";
+import { marketplaceAddress } from '../../config';
 
-if (typeof window === "undefined") {
-  require("dotenv").config();
+if (typeof window === 'undefined') {
+  require('dotenv').config();
 }
 
 export default function Home() {
   const [nfts, setNfts] = useState([]);
-  const [loadingState, setLoadingState] = useState("not-loaded");
+  const [loadingState, setLoadingState] = useState('not-loaded');
   useEffect(() => {
     loadNFTs();
   }, []);
@@ -22,7 +22,7 @@ export default function Home() {
     /* create a generic provider and query for unsold market items */
     // const provider = new ethers.providers.JsonRpcProvider();
     const provider = new ethers.providers.AlchemyProvider(
-      "rinkeby",
+      'rinkeby',
       process.env.ALCHEMY_API_KEY
     );
     const contract = new ethers.Contract(
@@ -42,11 +42,11 @@ export default function Home() {
      *  them as well as fetch their token metadata
      */
     const items = await Promise.all(
-      data.map(async (i) => {
+      data.map(async i => {
         // const tokenUri = await contract.tokenURI(i.tokenId);
         const tokenUri = i.tokenURI;
         const meta = await axios.get(tokenUri);
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
         let item = {
           price,
           tokenId: i.tokenId.toNumber(),
@@ -60,7 +60,7 @@ export default function Home() {
       })
     );
     setNfts(items);
-    setLoadingState("loaded");
+    setLoadingState('loaded');
   }
   async function buyNft(nft) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
@@ -75,7 +75,7 @@ export default function Home() {
     );
 
     /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
     const transaction = await contract.createMarketSale(nft.tokenId, {
       value: price,
     });
@@ -83,7 +83,7 @@ export default function Home() {
     loadNFTs();
   }
 
-  if (loadingState === "loaded" && !nfts.length)
+  if (loadingState === 'loaded' && !nfts.length)
     return (
       <div className="container">
         <div className="flex px-4 py-4">
@@ -108,9 +108,9 @@ export default function Home() {
           {nfts.length} items listed
         </div>
       </div>
-      {loadingState === "loaded" ? (
+      {loadingState === 'loaded' ? (
         <div className="flex justify-center">
-          <div className="px-4" style={{ maxWidth: "1600px" }}>
+          <div className="px-4" style={{ maxWidth: '1600px' }}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
               {nfts.map((nft, i) => (
                 // <div>jkjkjkjk</div>
