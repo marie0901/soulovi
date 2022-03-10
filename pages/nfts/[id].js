@@ -7,30 +7,34 @@ import { BaseLayout } from "@components/ui/layout";
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
-export default function Nft({ nft }) {
-  console.log("!!!!nft: ", nft);
-
+export default function Nft(tokenId) {
   const { isLoading } = useWeb3();
   const { account } = useAccount();
-  const { nftData } = useNft(nft, account.data);
+  const { nft } = useNft(tokenId, account.data);
 
-  console.log("!!!!nftData:", nftData);
+  console.log("!!!!nft:", nft);
+
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>loading...</div>;
+  }
   return (
     <div className="container px-6 mx-auto flex flex-col justify-center">
-      {nftData ? <div>!!!!nftData: {nftData}</div> : <div>no nft data</div>}
       <div className="flex flex-col my-6">
         <div className="flex flex-wrap">
           <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-3/12 lg:w-4/12">
             <div className="flex justify-center">
-              <img className="rounded-t-lg" src="/images/nft0.png" alt="" />
+              <img className="rounded-t-lg" src={nft.data?.image} alt="" />
             </div>
           </div>
 
           <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12 md:pl-12 text-center md:text-left">
             <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12 flex justify-between">
               <div className="text-gray-900 text-xl font-medium mb-2 ">
-                {nft.title}
+                {nft.data?.name}
               </div>
               <div className="text-gray-900 text-xl font-medium mb-2">
                 <img className="rounded-t-lg" src="/images/share.png" alt="" />
@@ -38,7 +42,7 @@ export default function Nft({ nft }) {
             </div>
             <div className="flex">
               <div className="text-gray-900 font-mono text-sm tracking-wider underline">
-                {nft.artist}
+                {nft.data?.artist}
               </div>
               <div className="text-gray-900 text-xl font-medium mb-2">
                 <img className="mt-2 pl-1" src="/images/arrow1.png" alt="" />
@@ -49,7 +53,7 @@ export default function Nft({ nft }) {
               Details:
             </div>
             <div className="mt-1 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
-              <p className="text-xs">{nft.description}</p>
+              <p className="text-xs">{nft.data?.description}</p>
             </div>
 
             <div className="mt-8">
@@ -83,7 +87,7 @@ export default function Nft({ nft }) {
                       ></img>
                     </span>
 
-                    <div className="pt-1">{nft.price}</div>
+                    <div className="pt-1">{nft.data?.price}</div>
                   </div>
                 </div>
               </div>
@@ -116,24 +120,27 @@ export function getStaticPaths() {
         },
       },
     ],
-
-    fallback: false,
+    fallback: true,
   };
 }
 
-export function getStaticProps({ params }) {
-  const nft = {
-    id: 1,
-    title: "Stand with Ukraine (nft title)",
-    price: "0.0001",
-    artist: "Axionov",
-    description:
-      "Moments its musical age explain. But extremity sex now education concluded earnestly her continual. Oh furniture acuteness suspected continual ye something frankness. Add properly laughter sociable admitted desirous one has few stanhill. Opinion regular in perhaps another enjoyed no engaged he at. It conveying he continual ye suspected as necessary. Separate met packages shy for kindness.",
-  };
+// export const getStaticPaths = async () => {
+//   allNfts = await contract.methods.fetchMarketItems().call();
+//   // generate the paths
+//   const paths = allNfts.map((nft) => ({
+//     params: { id: nft.tokenId }, // keep in mind if post.id is a number you need to stringify post.id
+//   }));
 
+//   return {
+//     paths,
+//     fallback: true,
+//   };
+// };
+
+export function getStaticProps({ params }) {
   return {
     props: {
-      nft,
+      tokenId: params.id,
     },
   };
 }

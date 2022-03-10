@@ -147,32 +147,6 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, AccessControl {
     }
 
 
-/// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
-  /// @param redeemer The address of the account which will receive the NFT upon success.
-  /// @param voucher A signed NFTVoucher that describes the NFT to be redeemed.
-//   function redeem(address redeemer, NFTVoucher calldata voucher) public payable returns (uint256) {
-//     // make sure signature is valid and get the address of the signer
-//     address signer = _verify(voucher);
-
-//     // make sure that the signer is authorized to mint NFTs
-//     require(hasRole(MINTER_ROLE, signer), "Signature invalid or unauthorized");
-
-//     // make sure that the redeemer is paying enough to cover the buyer's cost
-//     require(msg.value >= voucher.minPrice, "Insufficient funds to redeem");
-
-//     // first assign the token to the signer, to establish provenance on-chain
-//     _mint(signer, voucher.tokenId);
-//     _setTokenURI(voucher.tokenId, voucher.uri);
-    
-//     // transfer the token to the redeemer
-//     _transfer(signer, redeemer, voucher.tokenId);
-
-//     // record payment to signer's withdrawal balance
-//     pendingWithdrawals[signer] += msg.value;
-
-//     return voucher.tokenId;
-//   }
-
 
 /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
 /// @notice Creates the sale of a marketplace item 
@@ -196,7 +170,29 @@ require(msg.value >= price, "Insufficient funds to redeem");
       payable(owner).transfer(listingPrice);
       payable(seller).transfer(msg.value);
     }
+    /* Returns a single market item */
+    function fetchMarketItem( uint256 tokenId) public view returns (MarketItem memory) {
+      MarketItem storage Item = idToMarketItem[tokenId];
+      return Item;
+    }
 
+    /* !!!TEST Returns all unsold market items */
+    function testMarketItems() public view returns (MarketItem[] memory) {
+      uint itemCount = _tokenIds.current();
+      uint unsoldItemCount = _tokenIds.current() - _itemsSold.current();
+      uint currentIndex = 0;
+
+      MarketItem[] memory items = new MarketItem[](unsoldItemCount);
+      for (uint i = 0; i < itemCount; i++) {
+        if (idToMarketItem[i + 1].owner == address(this)) {
+          uint currentId = i + 1;
+          MarketItem storage currentItem = idToMarketItem[currentId];
+          items[currentIndex] = currentItem;
+          currentIndex += 1;
+        }
+      }
+      return items;
+    }
     /* Returns all unsold market items */
     function fetchMarketItems() public view returns (MarketItem[] memory) {
       uint itemCount = _tokenIds.current();
@@ -239,30 +235,7 @@ require(msg.value >= price, "Insufficient funds to redeem");
       return items;
     }
 
-    /* Returns only items a user has listed */
-    function fetchItemsListed() public view returns (MarketItem[] memory) {
-      uint totalItemCount = _tokenIds.current();
-      uint itemCount = 0;
-      uint currentIndex = 0;
-
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (idToMarketItem[i + 1].seller == msg.sender) {
-          itemCount += 1;
-        }
-      }
-
-      MarketItem[] memory items = new MarketItem[](itemCount);
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (idToMarketItem[i + 1].seller == msg.sender) {
-          uint currentId = i + 1;
-          MarketItem storage currentItem = idToMarketItem[currentId];
-          items[currentIndex] = currentItem;
-          currentIndex += 1;
-        }
-      }
-      return items;
-    }
-
+   
 //////////////////////////////// Lazy Minting Part ///////////////////////////////////////
   /// @notice Transfers all pending withdrawal balance to the caller. Reverts if the caller is not an authorized minter.
   function withdraw() public {

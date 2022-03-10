@@ -7,7 +7,6 @@ export const handler = (web3, contract) => (account) => {
     () => (web3 && contract && account ? `web3/allNfts/${account}` : null),
     async () => {
       const allNfts = await contract.methods.fetchMarketItems().call();
-
       const allNftsMeta = await Promise.all(
         allNfts.map(async (i) => {
           // const tokenUri = await contract.tokenURI(i.tokenId);

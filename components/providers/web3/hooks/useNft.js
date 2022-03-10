@@ -1,21 +1,32 @@
+import axios from "axios";
 import useSWR from "swr";
+import { ethers } from "ethers";
 
-export const handler = (web3, contract) => (nft, account) => {
-  console.log("!!!!contract", contract);
-  // console.log("!!!!contract", contract);
-  // console.log("!!!!account", account);
-
+export const handler = (web3, contract) => (tokenId, account) => {
   const swrRes = useSWR(
-    () => (web3 && contract && account ? `web3/nft/${account}` : null),
+    () =>
+      web3 && contract && account && tokenId ? `web3/nft/${tokenId}` : null,
     async () => {
-      console.log("!!!!2222222222web3", web3);
-      // const data = await contract.fetchMarketItems();
-      const data = { a: "aaa", b: "bbb" };
-      console.log("!!!!!333333data", data);
+      // const nft = await contract.method.testMarketItems().call();
+      const nft = await contract.methods.fetchMarketItem("1").call();
 
-      return data;
+      const nftMeta = await axios.get(nft.tokenURI);
+
+      let item = {
+        price: ethers.utils.formatUnits(`${nft.price}`, "ether"),
+        tokenId: nft.tokenId,
+        seller: nft.seller,
+        owner: nft.owner,
+        image: nftMeta.data.image,
+        name: nftMeta.data.name,
+        description: nftMeta.data.description,
+      };
+
+      return item;
     }
   );
-  console.log("!!!!4444444swrRes", swrRes);
-  return swrRes;
+
+  return {
+    ...swrRes,
+  };
 };
