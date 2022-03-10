@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { useRouter } from "next/router";
-import axios from "axios";
-import Web3Modal from "web3modal";
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import Web3Modal from 'web3modal';
 
-import { marketplaceAddress } from "../config";
+import { marketplaceAddress } from '../../config';
 
-import NFTMarketplace from "../utils/NFTMarketplace.json";
+import NFTMarketplace from '@utils/NFTMarketplace.json';
 
 export default function ResellNFT() {
-  const [formInput, updateFormInput] = useState({ price: "", image: "" });
+  const [formInput, updateFormInput] = useState({ price: '', image: '' });
   const router = useRouter();
   const { id, tokenURI } = router.query;
   const { image, price } = formInput;
@@ -21,7 +21,7 @@ export default function ResellNFT() {
   async function fetchNFT() {
     if (!tokenURI) return;
     const meta = await axios.get(tokenURI);
-    updateFormInput((state) => ({ ...state, image: meta.data.image }));
+    updateFormInput(state => ({ ...state, image: meta.data.image }));
   }
 
   async function listNFTForSale() {
@@ -31,7 +31,7 @@ export default function ResellNFT() {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
 
-    const priceFormatted = ethers.utils.parseUnits(formInput.price, "ether");
+    const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether');
     let contract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,
@@ -45,7 +45,7 @@ export default function ResellNFT() {
     });
     await transaction.wait();
 
-    router.push("/");
+    router.push('/');
   }
 
   return (
@@ -54,7 +54,7 @@ export default function ResellNFT() {
         <input
           placeholder="Asset Price in Eth"
           className="mt-2 border rounded p-4"
-          onChange={(e) =>
+          onChange={e =>
             updateFormInput({ ...formInput, price: e.target.value })
           }
         />

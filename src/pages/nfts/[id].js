@@ -1,8 +1,8 @@
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Nft({ nft }) {
-  console.log("!!!!nft: ", nft);
+  console.log('!!!!nft: ', nft);
   return (
     <div className="container px-6 mx-auto flex flex-col justify-center">
       <div className="flex flex-col my-6">
@@ -98,7 +98,7 @@ export function getStaticPaths() {
     paths: [
       {
         params: {
-          id: "1",
+          id: '1',
         },
       },
     ],
@@ -110,11 +110,11 @@ export function getStaticPaths() {
 export function getStaticProps({ params }) {
   const nft = {
     id: 1,
-    title: "Stand with Ukraine (nft title)",
-    price: "0.0001",
-    artist: "Axionov",
+    title: 'Stand with Ukraine (nft title)',
+    price: '0.0001',
+    artist: 'Axionov',
     description:
-      "Moments its musical age explain. But extremity sex now education concluded earnestly her continual. Oh furniture acuteness suspected continual ye something frankness. Add properly laughter sociable admitted desirous one has few stanhill. Opinion regular in perhaps another enjoyed no engaged he at. It conveying he continual ye suspected as necessary. Separate met packages shy for kindness.",
+      'Moments its musical age explain. But extremity sex now education concluded earnestly her continual. Oh furniture acuteness suspected continual ye something frankness. Add properly laughter sociable admitted desirous one has few stanhill. Opinion regular in perhaps another enjoyed no engaged he at. It conveying he continual ye suspected as necessary. Separate met packages shy for kindness.',
   };
 
   return {
