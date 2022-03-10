@@ -1,0 +1,73 @@
+[
+  {
+    "id": "1",
+    "type": "Next JS",
+    "title": "Next JS & Typescript with Shopify Integration - Full Guide",
+    "description": "Learn modern Next JS(Next 10+). Code everything in Typescript and integrate with Shopify.",
+    "coverImage": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/next-js-typescript-with-shopify-integration-full-guide",
+    "slug": "next-js-typescript-with-shopify-integration-full-guide",
+    "wsl": [
+      "Build Next JS apps on your own",
+      "Build ecommerce apps with modern technologies",
+      "Use Shopify to your advantage"
+    ],
+    "createdAt": "",
+    "price": "0.0001"
+  },
+  {
+    "id": "2",
+    "type": "Gatsby JS",
+    "title": "Gatsby JS Developer's Guide - Important Parts & Blog App",
+    "description": "Learn popular Gatsby JS(Gatsby v3) framework. Use React/GraphQL to build your own blog page with JAMStack architecture.",
+    "coverImage": "https://thrangra.sirv.com/Gatsby.jpeg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/gatsby-js-developer-s-guide-important-parts-blog-app",
+    "slug": "gatsby-js-developer-s-guide-important-parts-blog-app",
+    "wsl": [
+      "Build Gatsby JS apps on your own",
+      "Build static page apps with modern technologies",
+      "Understand meaning and benefits of JAMStack",
+      "Use GraphQL to your advantage"
+    ],
+    "createdAt": "",
+    "price": "0.0002"
+  },
+  {
+    "id": "3",
+    "type": "Unity",
+    "title": "The Complete Unity Guide 3D - Beginner to RPG Game Dev in C#",
+    "description": "Build 3 games & learn Unity practical way! Start with fundamentals and finish with an RPG game. Using Unity 2020 and C#",
+    "coverImage": "https://thrangra.sirv.com/UnityJS.jpeg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/the-complete-unity-guide-3d-beginner-to-rpg-game-dev-in-c",
+    "slug": "the-complete-unity-guide-3d-beginner-to-rpg-game-dev-in-c",
+    "wsl": [
+      "The practical approach by creating cool games",
+      "Fundamentals and core concepts of game development",
+      "Create a RPG game with tons of features",
+      "Math explanations behind the code."
+    ],
+    "createdAt": "",
+    "price": "0.0003"
+  },
+  {
+    "id": "4",
+    "type": "Phaser 3",
+    "title": "Game Development in JS - The Complete Guide (w/ Phaser 3)",
+    "description": "Start building your own games and publish them on Facebook. Learn how to create HTML5 games in Javascript with Phaser 3.",
+    "coverImage": "https://thrangra.sirv.com/PhaserJS.jpeg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/phaser-3-the-complete-guide-build-publish-games-in-js",
+    "slug": "phaser-3-the-complete-guide-build-publish-games-in-js",
+    "wsl": [
+      "Developing games by creating the games",
+      "Fundamentals of game development",
+      "Use Javascript to develop games for Facebook",
+      "Publish your own game on Facebook Instant Games"
+    ],
+    "createdAt": "",
+    "price": "0.0004"
+  }
+]

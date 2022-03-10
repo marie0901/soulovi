@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
 import { useRouter } from "next/router";
+import { BaseLayout } from "@components/ui/layout";
 
 import { marketplaceAddress } from "../config";
 
@@ -80,3 +81,4 @@ export default function MyAssets() {
     </div>
   );
 }
+MyAssets.Layout = BaseLayout;

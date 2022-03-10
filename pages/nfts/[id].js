@@ -1,10 +1,24 @@
+import { useAccount, useNft } from "@components/hooks/web3";
+import { useWeb3 } from "@components/providers";
+// import { Message, Modal } from "@components/ui/common";
+
+import { BaseLayout } from "@components/ui/layout";
+// import { getAllCourses } from "@content/courses/fetcher";
+
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Nft({ nft }) {
   console.log("!!!!nft: ", nft);
+
+  const { isLoading } = useWeb3();
+  const { account } = useAccount();
+  const { nftData } = useNft(nft, account.data);
+
+  console.log("!!!!nftData:", nftData);
   return (
     <div className="container px-6 mx-auto flex flex-col justify-center">
+      {nftData ? <div>!!!!nftData: {nftData}</div> : <div>no nft data</div>}
       <div className="flex flex-col my-6">
         <div className="flex flex-wrap">
           <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-3/12 lg:w-4/12">
@@ -123,3 +137,5 @@ export function getStaticProps({ params }) {
     },
   };
 }
+
+Nft.Layout = BaseLayout;

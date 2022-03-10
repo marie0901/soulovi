@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { BaseLayout } from "@components/ui/layout";
+
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -88,3 +90,4 @@ export default function Home() {
     </div>
   );
 }
+Home.Layout = BaseLayout;

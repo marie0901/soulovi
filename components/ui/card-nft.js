@@ -16,7 +16,6 @@ export default function CardNft({ i, nft }) {
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
-    console.log("!!!!!nft:", nft);
     const contract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,
