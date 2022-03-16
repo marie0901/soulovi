@@ -1,5 +1,5 @@
 import { useEthPrice, COURSE_PRICE } from '@components/hooks/useEthPrice';
-import { Loader } from '@components/ui/common';
+// import { Loader } from '@components/ui/common';
 import Image from 'next/image';
 
 export default function EthRates() {
@@ -21,7 +21,7 @@ export default function EthRates() {
             </>
           ) : (
             <div className="w-full flex justify-center">
-              <Loader size="md" />
+              {/* <Loader size="md" /> */}
             </div>
           )}
         </div>

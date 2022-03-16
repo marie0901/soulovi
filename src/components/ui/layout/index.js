@@ -1,12 +1,11 @@
 import { Web3Provider } from '@components/providers';
-import { Navbar } from '@components/ui/common';
-// import { Navbar, Footer } from "@components/ui/common"
+import { NavBar } from '@components/ui/common/NavBar';
 
 export const BaseLayout = ({ children }) => {
   return (
     <Web3Provider>
-      <div className="max-w-7xl mx-auto px-4">
-        <Navbar />
+      <div className="max-w-9xl mx-auto px-4">
+        <NavBar />
         <div className="fit">{children}</div>
       </div>
       {/* <Footer /> */}

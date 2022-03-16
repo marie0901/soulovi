@@ -1,48 +1,61 @@
-import { useState } from 'react';
-import { ethers } from 'ethers';
+import { FileUploader } from 'react-drag-drop-files';
 
+import Image from 'next/image';
+
+import { LazyMinter } from '@components/LazyMinter';
+import NFTMarketplace from '@utils/NFTMarketplace.json';
+import { ethers } from 'ethers';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Web3Modal from 'web3modal';
+import { marketplaceAddress } from '../../config';
+
 import { BaseLayout } from '@components/ui/layout';
-import { LazyMinter } from '@components/LazyMinter';
+import { Button } from '@components/ui/common/Button';
+import { Return } from '@components/ui/common/Return';
+import { InputAfter } from '@components/ui/common/CustomInput';
 
-// const hardhat = require("hardhat");
-// const { hEthers } = hardhat;
-
-// const mmm = async function () {
-//   const [minter, redeemer, _] = await hEthers.getSigners();
-//   // console.log("minter", minter);
-// };
+import { FileContainer, Overlay } from '@styles/pages/create-ntf';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
-import { marketplaceAddress } from '../../config';
+const fileTypes = ['jpeg', 'jpg', 'png', 'gif'];
 
-import NFTMarketplace from '../utils/NFTMarketplace.json';
+export default function CreateNtf() {
+  const router = useRouter();
 
-export default function CreateItem() {
-  const [fileUrl, setFileUrl] = useState(null);
+  const [file, setFile] = useState(null);
+  const [imgSrc, setImgSrc] = useState(null);
+
   const [formInput, updateFormInput] = useState({
     price: '',
     name: '',
     description: '',
   });
-  const router = useRouter();
 
-  async function onChange(e) {
+  async function onChange(file) {
+    setFile(file);
+    setImgSrc(window.URL.createObjectURL(file));
     /* upload image to IPFS */
-    const file = e.target.files[0];
-    try {
-      const added = await client.add(file, {
-        progress: prog => console.log(`received: ${prog}`),
-      });
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-      setFileUrl(url);
-    } catch (error) {
-      console.log('Error uploading file: ', error);
-    }
+    // const file = e.target.files[0];
+    // try {
+    //   const added = await client.add(file, {
+    //     progress: prog => console.log(`received: ${prog}`),
+    //   });
+    //   const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+    //   setFileUrl(url);
+    // } catch (error) {
+    //   console.log('Error uploading file: ', error);
+    // }
   }
+
+  const handleDelete = () => {
+    setFile(null);
+    setImgSrc(null);
+    URL.revokeObjectURL(imgSrc);
+  };
+
   async function uploadToIPFS() {
     const { name, description, price } = formInput;
     if (!name || !description || !price || !fileUrl) return;
@@ -60,6 +73,8 @@ export default function CreateItem() {
     } catch (error) {
       console.log('Error uploading file: ', error);
     }
+
+    URL.revokeObjectURL(imgSrc);
   }
 
   async function listNFTForSale() {
@@ -78,56 +93,107 @@ export default function CreateItem() {
     );
 
     /* lazy minting */
-    const lazyminter = new LazyMinter({ contract, signer, price });
+    const lazyminter = new LazyMinter({ contract, signer });
     const tokenId = await contract.getCurrentTokenId();
-    const voucher = await lazyminter.createVoucher(+tokenId + 1, `${url}`);
-    // console.log("!!!!voucher", voucher);
+    const voucher = await lazyminter.createVoucher(tokenId, `${url}`);
+    console.log('!!!!voucher', voucher);
+    /////////////////
 
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
     // console.log("!!!!1111");
-    let transaction = await contract.createToken(voucher, {
-      value: listingPrice,
+    let transaction = await contract.createToken(url, price, {
+      // value: listingPrice,
     });
     await transaction.wait();
+    // console.log("!!!!22222");
     router.push('/');
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/2 flex flex-col pb-12">
-        <input
-          placeholder="Asset Name"
-          className="mt-8 border rounded p-4"
-          onChange={e =>
-            updateFormInput({ ...formInput, name: e.target.value })
-          }
-        />
-        <textarea
-          placeholder="Asset Description"
-          className="mt-2 border rounded p-4"
-          onChange={e =>
-            updateFormInput({ ...formInput, description: e.target.value })
-          }
-        />
-        <input
-          placeholder="Asset Price in Eth"
-          className="mt-2 border rounded p-4"
-          onChange={e =>
-            updateFormInput({ ...formInput, price: e.target.value })
-          }
-        />
-        <input type="file" name="Asset" className="my-4" onChange={onChange} />
-        {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />}
-        <button
-          onClick={listNFTForSale}
-          className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg"
-        >
-          Create NFT
-        </button>
+    <div className="w-full">
+      <Return />
+      <div className="container mx-auto h-full flex flex-row">
+        <div className="w-[43rem] flex h-[43.75rem] flex-col pr-[2.5rem] border-box border-r border-stone-[#D3D6DB]">
+          <div className="w-full h-full overflow-hidden rounded-2xl border border-stone-[#D3D6DB] bg-[#FAFAFA]">
+            <FileUploader
+              handleChange={onChange}
+              fileOrFiles={file}
+              name="file"
+              types={fileTypes}
+              children={
+                file ? (
+                  <FileContainer className="w-full h-full relative">
+                    <Overlay className="w-full h-full flex justify-center items-center">
+                      <Image
+                        src="/images/re-upload1.png"
+                        width={113}
+                        height={143}
+                      ></Image>
+                    </Overlay>
+                    <img className="w-full h-full" src={imgSrc} />
+                  </FileContainer>
+                ) : (
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Image
+                      src="/images/upload1.png"
+                      width={113}
+                      height={143}
+                    ></Image>
+                  </div>
+                )
+              }
+            />
+          </div>
+        </div>
+        <div className="w-[43rem] flex h-[43.75rem] flex-col pl-[2.5rem] border-box">
+          <div className="flex flex-col">
+            <div className="flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+              <input
+                placeholder="Item Name"
+                className="mb-[1.5rem] border rounded-lg p-4"
+                onChange={e =>
+                  updateFormInput({ ...formInput, name: e.target.value })
+                }
+              />
+              <textarea
+                placeholder="Item Description"
+                className="border rounded-lg p-4 mb-[1.5rem]"
+                onChange={e =>
+                  updateFormInput({
+                    ...formInput,
+                    description: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="flex flex-col justify-between">
+              <div className="flex mb-[1rem]">
+                <InputAfter
+                  after="ETH"
+                  placeholder="Price"
+                  onChange={e =>
+                    updateFormInput({ ...formInput, price: e.target.value })
+                  }
+                />
+                <InputAfter
+                  after="%"
+                  placeholder="Royalties"
+                  onChange={e =>
+                    updateFormInput({ ...formInput, price: e.target.value })
+                  }
+                />
+              </div>
+
+              <Button variant="black" rounded="full">
+                List Item
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-CreateItem.Layout = BaseLayout;
+CreateNtf.Layout = BaseLayout;

@@ -1,6 +1,6 @@
 import { useWalletInfo } from '@components/hooks/web3';
 import { useWeb3 } from '@components/providers';
-import { Button } from '@components/ui/common';
+import { Button } from '@components/ui/common/Button';
 
 export default function WalletBar() {
   const { requireInstall } = useWeb3();
