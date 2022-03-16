@@ -12,7 +12,7 @@ module.exports = {
       serif: ['ui-serif', 'Georgia'],
       mono: ['SFMono-Regular', 'Menlo'],
       hanson: ['Rubik Mono One', 'ui-sans-serif'],
-      loto: ['Loto', 'ui-sans-serif'],
+      lato: ['Lato', 'ui-sans-serif'],
     },
     colors: {
       transparent: 'transparent',

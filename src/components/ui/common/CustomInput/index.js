@@ -4,7 +4,7 @@ import tw from 'tailwind-styled-components';
 const Container = styled.div`
   position: relative;
   &::after {
-    content: '${({ after }) => after}';
+    content: '${({ after }) => after || '*'}';
     position: absolute;
     right: 2rem;
     top: 1rem;

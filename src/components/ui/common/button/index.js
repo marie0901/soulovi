@@ -11,6 +11,7 @@ export const Button = ({
   hoverable = true,
   variant = 'purple',
   rounded = 'md',
+  fontFamily = 'mono',
   ...rest
 }) => {
   const sizeClass = SIZE[size];
@@ -28,7 +29,7 @@ export const Button = ({
   return (
     <button
       {...rest}
-      className={`${sizeClass} disabled:opacity-50 disabled:cursor-not-allowed border rounded-${rounded} font-medium ${className} ${variants[variant]}`}
+      className={`${sizeClass} disabled:opacity-50 disabled:cursor-not-allowed border rounded-${rounded} font-${fontFamily} ${className} ${variants[variant]}`}
     >
       {children}
     </button>

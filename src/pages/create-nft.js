@@ -147,49 +147,56 @@ export default function CreateNtf() {
           </div>
         </div>
         <div className="w-[43rem] flex h-[43.75rem] flex-col pl-[2.5rem] border-box">
-          <div className="flex flex-col">
-            <div className="flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
-              <input
-                placeholder="Item Name"
-                className="mb-[1.5rem] border rounded-lg p-4"
-                onChange={e =>
-                  updateFormInput({ ...formInput, name: e.target.value })
-                }
-              />
-              <textarea
-                placeholder="Item Description"
-                className="border rounded-lg p-4 mb-[1.5rem]"
-                onChange={e =>
-                  updateFormInput({
-                    ...formInput,
-                    description: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="flex flex-col justify-between">
-              <div className="flex mb-[1rem]">
-                <InputAfter
-                  after="ETH"
-                  placeholder="Price"
-                  onChange={e =>
-                    updateFormInput({ ...formInput, price: e.target.value })
-                  }
-                />
-                <InputAfter
-                  after="%"
-                  placeholder="Royalties"
-                  onChange={e =>
-                    updateFormInput({ ...formInput, price: e.target.value })
-                  }
-                />
-              </div>
-
-              <Button variant="black" rounded="full">
-                List Item
-              </Button>
-            </div>
+          <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+            <input
+              placeholder="Item Name"
+              className="mb-[1.5rem] border rounded-lg p-4"
+              onChange={e =>
+                updateFormInput({ ...formInput, name: e.target.value })
+              }
+            />
+            <textarea
+              placeholder="Item Description"
+              className="border rounded-lg p-4 mb-[1.5rem]"
+              onChange={e =>
+                updateFormInput({
+                  ...formInput,
+                  description: e.target.value,
+                })
+              }
+            />
           </div>
+          <div className="flex flex-col justify-between font-lato">
+            <div className="flex grow-1 mb-[1rem]  text-xl">
+              <InputAfter
+                after={'ETH'}
+                placeholder={'Price'}
+                onChange={e =>
+                  updateFormInput({ ...formInput, price: e.target.value })
+                }
+              />
+              <InputAfter
+                after={'%'}
+                placeholder={'Royalties'}
+                onChange={e =>
+                  updateFormInput({ ...formInput, price: e.target.value })
+                }
+              />
+            </div>
+            <p className="text-[#868E95]">
+              Moments its musical age explain. But extremity sex now education
+              concluded earnestly her continual.
+            </p>
+          </div>
+          <Button
+            className="mt-auto"
+            fontFamily="lato"
+            size="lg"
+            variant="black"
+            rounded="full"
+          >
+            List Item
+          </Button>
         </div>
       </div>
     </div>

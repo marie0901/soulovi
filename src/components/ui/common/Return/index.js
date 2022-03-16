@@ -19,7 +19,7 @@ export const Return = ({}) => {
   }
 
   return (
-    <div className="w-full h-32 flex items-center border-b border-stone-100 pt-10 mb-10 font-loto">
+    <div className="w-full h-32 flex items-center border-b border-stone-100 pt-10 mb-10 font-lato">
       <div className="pr-[1.5rem]">
         <Image src="/images/arrow.svg" width={40} height={20}></Image>
       </div>
