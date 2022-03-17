@@ -12,6 +12,7 @@ module.exports = {
       serif: ['ui-serif', 'Georgia'],
       mono: ['SFMono-Regular', 'Menlo'],
       hanson: ['Rubik Mono One', 'ui-sans-serif'],
+      lato: ['Lato', 'ui-sans-serif'],
     },
     colors: {
       transparent: 'transparent',
@@ -26,6 +27,10 @@ module.exports = {
       blue: colors.blue,
       ukrblue: '#4378ff',
       ukryellow: '#ffd600',
+    },
+    maxWidth: {
+      '8xl': '88rem',
+      '9xl': '96rem',
     },
   },
   plugins: [],

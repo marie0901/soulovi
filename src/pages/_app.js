@@ -2,6 +2,8 @@ import '../styles/globals.css';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import { Return } from '@components/ui/common/Return';
+
 const Noop = ({ children }) => <>{children}</>;
 
 function MyApp({ Component, pageProps }) {
@@ -9,7 +11,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <Layout>
       <div className="flex flex-col h-screen">
-        {/* navbar was here */}
         <div className="flex flex-grow">
           <Component {...pageProps} />
         </div>
