@@ -121,29 +121,28 @@ export default function CreateNtf() {
               fileOrFiles={file}
               name="file"
               types={fileTypes}
-              children={
-                file ? (
-                  <FileContainer className="w-full h-full relative">
-                    <Overlay className="w-full h-full flex justify-center items-center">
-                      <Image
-                        src="/images/re-upload1.png"
-                        width={113}
-                        height={143}
-                      ></Image>
-                    </Overlay>
-                    <img className="w-full h-full" src={imgSrc} />
-                  </FileContainer>
-                ) : (
-                  <div className="w-full h-full flex justify-center items-center">
+            >
+              {file ? (
+                <FileContainer className="w-full h-full relative">
+                  <Overlay className="w-full h-full flex justify-center items-center">
                     <Image
-                      src="/images/upload1.png"
+                      src="/images/re-upload1.png"
                       width={113}
                       height={143}
                     ></Image>
-                  </div>
-                )
-              }
-            />
+                  </Overlay>
+                  <img className="w-full h-full" src={imgSrc} />
+                </FileContainer>
+              ) : (
+                <div className="w-full h-full flex justify-center items-center">
+                  <Image
+                    src="/images/upload1.png"
+                    width={113}
+                    height={143}
+                  ></Image>
+                </div>
+              )}
+            </FileUploader>
           </div>
         </div>
         <div className="w-[43rem] flex h-[43.75rem] flex-col pl-[2.5rem] border-box">

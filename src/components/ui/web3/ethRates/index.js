@@ -1,5 +1,5 @@
 import { useEthPrice, COURSE_PRICE } from '@components/hooks/useEthPrice';
-// import { Loader } from '@components/ui/common';
+import { Loader } from '@components/ui/common/loader';
 import Image from 'next/image';
 
 export default function EthRates() {
