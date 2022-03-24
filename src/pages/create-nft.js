@@ -24,6 +24,7 @@ const fileTypes = ['jpeg', 'jpg', 'png', 'gif'];
 
 export default function CreateNtf() {
   const router = useRouter();
+  const [fileUrl, setFileUrl] = useState(null);
 
   const [file, setFile] = useState(null);
   const [imgSrc, setImgSrc] = useState(null);
@@ -38,16 +39,17 @@ export default function CreateNtf() {
     setFile(file);
     setImgSrc(window.URL.createObjectURL(file));
     /* upload image to IPFS */
+
     // const file = e.target.files[0];
-    // try {
-    //   const added = await client.add(file, {
-    //     progress: prog => console.log(`received: ${prog}`),
-    //   });
-    //   const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-    //   setFileUrl(url);
-    // } catch (error) {
-    //   console.log('Error uploading file: ', error);
-    // }
+    try {
+      const added = await client.add(file, {
+        progress: prog => console.log(`received: ${prog}`),
+      });
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      setFileUrl(url);
+    } catch (error) {
+      console.log('Error uploading file: ', error);
+    }
   }
 
   const handleDelete = () => {
@@ -93,20 +95,18 @@ export default function CreateNtf() {
     );
 
     /* lazy minting */
-    const lazyminter = new LazyMinter({ contract, signer });
+    const lazyminter = new LazyMinter({ contract, signer, price });
     const tokenId = await contract.getCurrentTokenId();
-    const voucher = await lazyminter.createVoucher(tokenId, `${url}`);
-    console.log('!!!!voucher', voucher);
-    /////////////////
+    const voucher = await lazyminter.createVoucher(+tokenId + 1, `${url}`);
+    // console.log("!!!!voucher", voucher);
 
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
     // console.log("!!!!1111");
-    let transaction = await contract.createToken(url, price, {
-      // value: listingPrice,
+    let transaction = await contract.createToken(voucher, {
+      value: listingPrice,
     });
     await transaction.wait();
-    // console.log("!!!!22222");
     router.push('/');
   }
 
@@ -193,6 +193,7 @@ export default function CreateNtf() {
             size="lg"
             variant="black"
             rounded="full"
+            onClick={listNFTForSale}
           >
             List Item
           </Button>
