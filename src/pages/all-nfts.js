@@ -21,7 +21,8 @@ export default function AllNfts() {
   const { web3, contract, requireInstall } = useWeb3();
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo();
   const { allNfts } = useAllNfts(account.data);
-  // console.log("!!!allNfts: ", allNfts);
+  console.log('!!!account.data: ', account.data);
+  console.log('!!!allNfts: ', allNfts);
 
   return allNfts.data ? (
     <div className="container">
