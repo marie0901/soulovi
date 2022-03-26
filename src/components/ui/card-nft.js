@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
-
+import { withToast } from '@utils/toast';
 import { marketplaceAddress } from 'config';
 
 import NFTMarketplace from '@utils/NFTMarketplace.json';
@@ -11,6 +11,10 @@ import Link from 'next/link';
 
 export const CardNft = ({ i, nft }) => {
   async function buyNft(nft) {
+    withToast(_buyNft(nft));
+  }
+
+  async function _buyNft(nft) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
@@ -24,11 +28,23 @@ export const CardNft = ({ i, nft }) => {
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
-    const transaction = await contract.createMarketSale(nft.tokenId, {
-      value: price,
-    });
-    await transaction.wait();
-    // loadNFTs();
+    try {
+      const transaction = await contract.functions.createMarketSale(
+        nft.tokenId,
+        {
+          value: price,
+        }
+      );
+      return transaction.wait();
+      // const transaction = await contract.createMarketSale(nft.tokenId, {
+      //   value: price,
+      // });
+      // await transaction.wait();
+    } catch (error) {
+      throw new Error(error.message);
+    } finally {
+      // setBusyCourseId(null)
+    }
   }
 
   return (

@@ -1,4 +1,8 @@
 import '../styles/globals.css';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -10,6 +14,7 @@ function MyApp({ Component, pageProps }) {
   const Layout = Component.Layout ?? Noop;
   return (
     <Layout>
+      <ToastContainer />
       <div className="flex flex-col h-screen">
         <div className="flex flex-grow">
           <Component {...pageProps} />

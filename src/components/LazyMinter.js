@@ -18,11 +18,11 @@ class LazyMinter {
    *
    * @param {ethers.BigNumber | number} tokenId the id of the un-minted NFT
    * @param {string} uri the metadata URI to associate with this NFT
-   * @param {ethers.BigNumber | number} minPrice the minimum price (in wei) that the creator will accept to redeem this NFT. defaults to zero
+   * @param {ethers.BigNumber | number} price the minimum price (in wei) that the creator will accept to redeem this NFT. defaults to zero
    *
    * @returns {NFTVoucher}
    */
-  async createVoucher(tokenId, uri, price = 0) {
+  async createVoucher(tokenId, uri, price) {
     const voucher = { tokenId, uri, price };
     const domain = await this._signingDomain();
     const types = {

@@ -1,7 +1,3 @@
-import { ethers } from 'ethers';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
 import { useWeb3 } from '@components/providers';
 import { useAllNfts, useWalletInfo } from '@components/hooks/web3';
 import { BaseLayout } from '@components/ui/layout';
@@ -21,8 +17,7 @@ export default function AllNfts() {
   const { web3, contract, requireInstall } = useWeb3();
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo();
   const { allNfts } = useAllNfts(account.data);
-  console.log('!!!account.data: ', account.data);
-  console.log('!!!allNfts: ', allNfts);
+  // console.log('!!!allNfts: ', allNfts);
 
   return allNfts.data ? (
     <div className="container">

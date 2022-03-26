@@ -87,7 +87,7 @@ export default function CreateNtf() {
     const signer = provider.getSigner();
 
     /* create the NFT */
-    const price = ethers.utils.parseUnits(formInput.price, 'ether');
+    const price = ethers.utils.parseEther(formInput.price);
     let contract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,
@@ -95,14 +95,17 @@ export default function CreateNtf() {
     );
 
     /* lazy minting */
-    const lazyminter = new LazyMinter({ contract, signer, price });
+    const lazyminter = new LazyMinter({ contract, signer });
     const tokenId = await contract.getCurrentTokenId();
-    const voucher = await lazyminter.createVoucher(+tokenId + 1, `${url}`);
+    const voucher = await lazyminter.createVoucher(
+      +tokenId + 1,
+      `${url}`,
+      price
+    );
     // console.log("!!!!voucher", voucher);
 
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
-    // console.log("!!!!1111");
     let transaction = await contract.createToken(voucher, {
       value: listingPrice,
     });
