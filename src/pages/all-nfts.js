@@ -3,6 +3,7 @@ import { useAllNfts, useWalletInfo } from '@components/hooks/web3';
 import { BaseLayout } from '@components/ui/layout';
 import { WalletBar } from '@components/ui/web3';
 import { CardNft } from '@components/ui/card-nft';
+import Loader from '@components/ui/common/loader';
 
 import { getAllNfts } from '@content/nfts/fetcher';
 
@@ -45,7 +46,8 @@ export default function AllNfts() {
       </div>
     </div>
   ) : (
-    <div> No allNfts.hasInitialResponse </div>
+    <Loader />
+    // <div> No allNfts.hasInitialResponse </div>
   );
 }
 
