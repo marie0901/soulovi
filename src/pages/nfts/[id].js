@@ -1,5 +1,6 @@
 import { useAccount, useNft } from '@components/hooks/web3';
 import { useWeb3 } from '@components/providers';
+import { useState } from 'react';
 // import { Message, Modal } from "@components/ui/common";
 
 import { BaseLayout } from '@components/ui/layout';
@@ -7,15 +8,60 @@ import { BaseLayout } from '@components/ui/layout';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { Button } from '@components/ui/common/Button';
 import { useRouter } from 'next/router';
+import { withToast } from '@utils/toast';
+import { ethers } from 'ethers';
+import Web3Modal from 'web3modal';
+import { marketplaceAddress } from 'config';
+
+import NFTMarketplace from '@utils/NFTMarketplace.json';
 
 export default function Nft(props) {
   const { isLoading } = useWeb3();
   const { account } = useAccount();
+  const [busy, setBusy] = useState(false);
 
   const { nft } = useNft(props.tokenId, account.data);
 
   const router = useRouter();
+
+  async function buyNft(nft) {
+    withToast(_buyNft(nft));
+  }
+
+  async function _buyNft(nft) {
+    setBusy(true);
+    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      marketplaceAddress,
+      NFTMarketplace.abi,
+      signer
+    );
+
+    /* user will be prompted to pay the asking proces to complete the transaction */
+    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
+    try {
+      const transaction = await contract.functions.createMarketSale(
+        nft.tokenId,
+        {
+          value: price,
+        }
+      );
+      let result = await transaction.wait();
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    } finally {
+      setBusy(false);
+      router.push('/all-nfts');
+    }
+  }
 
   if (router.isFallback) {
     return <div>loading...</div>;
@@ -92,15 +138,20 @@ export default function Nft(props) {
               </div>
 
               <div className="mb-6 flex space-x-4 justify-center md:justify-start">
-                <Link href="/all-nfts">
-                  <a
+                {/* <Link href="/all-nfts"> */}
+                <button
+                  onClick={() => buyNft(nft.data)}
+                  disabled={busy}
+                  className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
+                >
+                  {/* <a
                     href="#"
                     className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
                     aria-current="page"
-                  >
-                    Buy NFT
-                  </a>
-                </Link>
+                  > */}
+                  Buy NFT
+                  {/* </a> */}
+                </button>
               </div>
             </div>
           </div>

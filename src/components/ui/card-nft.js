@@ -1,51 +1,47 @@
-import { ethers } from 'ethers';
-import Web3Modal from 'web3modal';
-import { withToast } from '@utils/toast';
-import { marketplaceAddress } from 'config';
+// import { ethers } from 'ethers';
+// import Web3Modal from 'web3modal';
+// import { withToast } from '@utils/toast';
+// import { marketplaceAddress } from 'config';
 
-import NFTMarketplace from '@utils/NFTMarketplace.json';
+// import NFTMarketplace from '@utils/NFTMarketplace.json';
 
 import Image from 'next/image';
 import Link from 'next/link';
 // import { AnimateKeyframes } from "react-simple-animate";
 
 export const CardNft = ({ i, nft }) => {
-  async function buyNft(nft) {
-    withToast(_buyNft(nft));
-  }
+  // async function buyNft(nft) {
+  //   withToast(_buyNft(nft));
+  // }
 
-  async function _buyNft(nft) {
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      marketplaceAddress,
-      NFTMarketplace.abi,
-      signer
-    );
+  // async function _buyNft(nft) {
+  //   /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+  //   const web3Modal = new Web3Modal();
+  //   const connection = await web3Modal.connect();
+  //   const provider = new ethers.providers.Web3Provider(connection);
+  //   const signer = provider.getSigner();
+  //   const contract = new ethers.Contract(
+  //     marketplaceAddress,
+  //     NFTMarketplace.abi,
+  //     signer
+  //   );
 
-    /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
-    try {
-      const transaction = await contract.functions.createMarketSale(
-        nft.tokenId,
-        {
-          value: price,
-        }
-      );
-      return transaction.wait();
-      // const transaction = await contract.createMarketSale(nft.tokenId, {
-      //   value: price,
-      // });
-      // await transaction.wait();
-    } catch (error) {
-      throw new Error(error.message);
-    } finally {
-      // setBusyCourseId(null)
-    }
-  }
+  //   /* user will be prompted to pay the asking proces to complete the transaction */
+  //   const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
+  //   try {
+  //     const transaction = await contract.functions.createMarketSale(
+  //       nft.tokenId,
+  //       {
+  //         value: price,
+  //       }
+  //     );
+  //     return transaction.wait();
+  //   } catch (error) {
+  //     throw new Error(error.message);
+  //   } finally {
+  //     // setBusyCourseId(null)
+  //   }
+  // }
 
   return (
     <div key={i} className="flex flex-wrap ">
@@ -83,38 +79,17 @@ export const CardNft = ({ i, nft }) => {
                 </div>
               </div>
             </div>
-            <div className="p-4 bg-black">
+            {/* <div className="p-4 bg-black">
               <button
                 className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
                 onClick={() => buyNft(nft)}
               >
                 Buy
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
     </div>
-
-    // <div key={i} className="border shadow rounded-xl overflow-hidden">
-    //   <img src={nft.image} />
-    //   <div className="p-4">
-    //     <p style={{ height: "64px" }} className="text-2xl font-semibold">
-    //       {nft.name}
-    //     </p>
-    //     <div style={{ height: "70px", overflow: "hidden" }}>
-    //       <p className="text-gray-400">{nft.description}</p>
-    //     </div>
-    //   </div>
-    //   <div className="p-4 bg-black">
-    //     <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
-    //     <button
-    //       className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
-    //       onClick={() => buyNft(nft)}
-    //     >
-    //       Buy
-    //     </button>
-    //   </div>
-    // </div>
   );
 };

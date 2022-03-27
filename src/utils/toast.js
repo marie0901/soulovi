@@ -1,7 +1,6 @@
 import { toast } from 'react-toastify';
 
-export const withToast = promise => {
-  console.log('!!!! start toast');
+export const withToast = async promise => {
   toast.promise(
     promise,
     {
