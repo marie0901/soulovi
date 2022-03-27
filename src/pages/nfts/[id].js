@@ -9,6 +9,7 @@ import { BaseLayout } from '@components/ui/layout';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@components/ui/common/Button';
+import Loader from '@components/ui/common/loader';
 import { useRouter } from 'next/router';
 import { withToast } from '@utils/toast';
 import { ethers } from 'ethers';
@@ -64,7 +65,7 @@ export default function Nft(props) {
   }
 
   if (router.isFallback) {
-    return <div>loading...</div>;
+    return <Loader />;
   }
   return (
     <div className="container px-6 mx-auto flex flex-col justify-center">

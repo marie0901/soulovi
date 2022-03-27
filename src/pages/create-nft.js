@@ -33,6 +33,7 @@ export default function CreateNtf() {
     price: '',
     name: '',
     description: '',
+    artist: '',
   });
 
   async function onChange(file) {
@@ -59,14 +60,18 @@ export default function CreateNtf() {
   };
 
   async function uploadToIPFS() {
-    const { name, description, price } = formInput;
-    if (!name || !description || !price || !fileUrl) return;
+    // console.log('!!!!!!! formInput', formInput);
+    const { name, description, artist, price } = formInput;
+    // console.log('!!!!!!! artist', artist);
+    if (!name || !description || !artist || !price || !fileUrl) return;
     /* first, upload metadata to IPFS */
     const data = JSON.stringify({
       name,
       description,
+      artist,
       image: fileUrl,
     });
+
     try {
       const added = await client.add(data);
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
@@ -165,6 +170,15 @@ export default function CreateNtf() {
                   ...formInput,
                   description: e.target.value,
                 })
+              }
+            />
+          </div>
+          <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+            <input
+              placeholder="Artist"
+              className="mb-[1.5rem] border rounded-lg p-4"
+              onChange={e =>
+                updateFormInput({ ...formInput, artist: e.target.value })
               }
             />
           </div>
