@@ -12,7 +12,7 @@ if (typeof window === 'undefined') {
 export default function AllNfts() {
   const { web3, contract, requireInstall } = useWeb3();
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo();
-  const { allNfts } = useAllNfts(account.data);
+  const { allNfts } = useAllNfts();
   // console.log('!!!allNfts: ', allNfts);
 
   return allNfts.data ? (

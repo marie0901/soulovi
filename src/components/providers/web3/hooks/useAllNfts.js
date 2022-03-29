@@ -2,9 +2,9 @@ import axios from 'axios';
 import useSWR from 'swr';
 import { ethers } from 'ethers';
 
-export const handler = (web3, contract) => (account, artist) => {
+export const handler = (web3, contract) => () => {
   const swrRes = useSWR(
-    () => (web3 && contract && account ? `web3/allNfts/${account}` : null),
+    () => (web3 && contract ? `web3/allNfts` : null),
     async () => {
       const allNfts = await contract.methods.fetchMarketItems().call();
       const allNftsMeta = await Promise.all(
