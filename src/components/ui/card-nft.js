@@ -63,7 +63,14 @@ export const CardNft = ({ i, nft }) => {
                 <div className="text-gray-900 text-xl font-medium mb-2  truncate">
                   {nft.name}
                 </div>
-                <p className="text-gray-400 font-mono text-sm ">{nft.artist}</p>
+
+                <Link href={`/artist-nfts/${nft.artist}`}>
+                  <a href="#!">
+                    <p className="text-gray-400 font-mono text-sm ">
+                      {nft.artist}
+                    </p>
+                  </a>
+                </Link>
               </div>
               <div className="flex flex-col">
                 <div className="text-mono text-xs text-gray-500">Price</div>

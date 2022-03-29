@@ -2,7 +2,7 @@ import axios from 'axios';
 import useSWR from 'swr';
 import { ethers } from 'ethers';
 
-export const handler = (web3, contract) => account => {
+export const handler = (web3, contract) => (account, artist) => {
   const swrRes = useSWR(
     () => (web3 && contract && account ? `web3/allNfts/${account}` : null),
     async () => {
@@ -13,7 +13,7 @@ export const handler = (web3, contract) => account => {
           const tokenUri = i.tokenURI;
           if (!tokenUri || tokenUri == 'undefined') {
             console.log(
-              `Error: tokenUri is not defined for the tokenId ${i.tokenId}`
+              `Warning: tokenUri is not defined for the tokenId ${i.tokenId}`
             );
             //  continue;
           } else {

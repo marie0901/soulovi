@@ -64,7 +64,7 @@ export default function Nft(props) {
     }
   }
 
-  if (router.isFallback) {
+  if (router.isFallback || !nft.data) {
     return <Loader />;
   }
   return (
@@ -87,9 +87,14 @@ export default function Nft(props) {
               </div>
             </div>
             <div className="flex">
-              <div className="text-gray-900 font-mono text-sm tracking-wider underline">
-                {nft.data?.artist}
-              </div>
+              <Link href={`/artist-nfts/${nft.data.artist}`}>
+                <a href="#!">
+                  <div className="text-gray-900 font-mono text-sm tracking-wider underline">
+                    {nft.data?.artist}
+                  </div>
+                </a>
+              </Link>
+
               <div className="text-gray-900 text-xl font-medium mb-2">
                 <img className="mt-2 pl-1" src="/images/arrow1.png" alt="" />
               </div>

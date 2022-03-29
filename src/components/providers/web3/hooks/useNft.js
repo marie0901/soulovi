@@ -9,9 +9,7 @@ export const handler = (web3, contract) => (tokenId, account) => {
     async () => {
       // const nft = await contract.method.testMarketItems().call();
       const nft = await contract.methods.fetchMarketItem(`${tokenId}`).call();
-      console.log('!!!!!nft :', nft);
       const nftMeta = await axios.get(nft.tokenURI);
-      console.log('!!!!!nftMeta :', nftMeta);
       let item = {
         price: ethers.utils.formatUnits(`${nft.price}`, 'ether'),
         priceRow: nft.price,
