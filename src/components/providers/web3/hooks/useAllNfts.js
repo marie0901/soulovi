@@ -6,17 +6,10 @@ export const handler = (web3, contract) => () => {
   const swrRes = useSWR(
     () => (contract ? `web3/allNfts` : null),
     async () => {
-      console.log('!!!!!111contract', contract);
-      console.log(
-        '!!!!!222contract.methods.fetchMarketItems',
-        contract.methods.fetchMarketItems().call()
-      );
-      // const allNfts = await contract.fetchMarketItems();
       const allNfts = await contract.methods.fetchMarketItems().call();
-      console.log('!!!!!allNfts', allNfts);
+      // console.log('!!!!!allNfts', allNfts);
       const allNftsMeta = await Promise.all(
         allNfts.map(async i => {
-          // const tokenUri = await contract.tokenURI(i.tokenId);
           const tokenUri = i.tokenURI;
           if (!tokenUri || tokenUri == 'undefined') {
             console.log(

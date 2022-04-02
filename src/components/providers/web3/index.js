@@ -71,11 +71,20 @@ export default function Web3Provider({ children }) {
         //   .balanceOf('0x80BC2298872D8C88f0Eca80fA1a63953Ac3093F8')
         //   .call();
 
-        let mmm = await contract.methods.fetchMarketItems().call();
-
+        // let mmm = await contract.methods.fetchMarketItems().call();
         // console.log('!!!!!7777mmm', mmm);
-        setWeb3Api(api => ({ ...api, isLoading: false }));
+        // setWeb3Api(api => ({ ...api, isLoading: false }));
+
         console.error('Please, install Metamask.');
+
+        setWeb3Api(
+          createWeb3State({
+            web3,
+            provider,
+            contract,
+            isLoading: false,
+          })
+        );
       }
     };
 
@@ -86,7 +95,7 @@ export default function Web3Provider({ children }) {
     const { web3, provider, isLoading } = web3Api;
     return {
       ...web3Api,
-      requireInstall: !isLoading && !web3,
+      requireInstall: !isLoading && !provider,
       connect: provider
         ? async () => {
             try {

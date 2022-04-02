@@ -4,8 +4,7 @@ import { ethers } from 'ethers';
 
 export const handler = (web3, contract) => (tokenId, account) => {
   const swrRes = useSWR(
-    () =>
-      web3 && contract && account && tokenId ? `web3/nft/${tokenId}` : null,
+    () => (web3 && contract && tokenId ? `web3/nft/${tokenId}` : null),
     async () => {
       // const nft = await contract.method.testMarketItems().call();
       const nft = await contract.methods.fetchMarketItem(`${tokenId}`).call();
