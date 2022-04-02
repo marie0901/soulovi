@@ -1,3 +1,5 @@
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+
 import { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { ethers } from 'ethers';
 import detectEthereumProvider from '@metamask/detect-provider';
@@ -48,38 +50,31 @@ export default function Web3Provider({ children }) {
           })
         );
       } else {
-        // provider=ethers.getDefaultProvider( [ network , [ options ] ] )
-        // const provider = ethers.getDefaultProvider('rinkeby');
-
-        // const provider = new ethers.providers.AlchemyProvider(
-        //   'rinkeby',
-        //   '-mD-41-Z7FEHWYFciR3Nt5GYJLwxskj7'
+        // Using Infura - doesn't work due to CORS error
+        // const provider = new ethers.providers.InfuraProvider(
+        //   'rinkeby'
+        //   , {
+        //     projectId: '1e7a207b3ad54bcc878e6f07ea962e12',
+        //     projectSecret: 'ff3ba0951aac409dbc1bc4655747b9fd',
+        //   }
         // );
-        const provider = new ethers.providers.InfuraProvider('rinkeby', {
-          projectId: '1e7a207b3ad54bcc878e6f07ea962e12',
-          projectSecret: 'ff3ba0951aac409dbc1bc4655747b9fd',
-        });
+        // const web3 = new Web3(provider);
+        // const contract = await loadContract('NFTMarketplace', web3);
 
-        const web3 = new Web3(provider);
+        // Using Alchemy
+        const web3 = createAlchemyWeb3(
+          'https://eth-rinkeby.alchemyapi.io/v2/-mD-41-Z7FEHWYFciR3Nt5GYJLwxskj7'
+        );
         const contract = await loadContract('NFTMarketplace', web3);
 
-        // setListeners(provider);
-        // setWeb3Api(
-        //   createWeb3State({
-        //     web3,
-        //     provider,
-        //     contract,
-        //     isLoading: false,
-        //   })
-        // );
-        console.log('!!!!!66666contract', contract);
+        // let mmm = await contract.methods
+        //   .balanceOf('0x80BC2298872D8C88f0Eca80fA1a63953Ac3093F8')
+        //   .call();
 
-        let mmm = await contract.methods
-          .balanceOf('0x80BC2298872D8C88f0Eca80fA1a63953Ac3093F8')
-          .call();
-        // let mmm = await contract.methods.fetchMarketItems().call();
-        console.log('!!!!!7777mmm', mmm);
-        // setWeb3Api(api => ({ ...api, isLoading: false }));
+        let mmm = await contract.methods.fetchMarketItems().call();
+
+        // console.log('!!!!!7777mmm', mmm);
+        setWeb3Api(api => ({ ...api, isLoading: false }));
         console.error('Please, install Metamask.');
       }
     };
