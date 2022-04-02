@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import { ethers } from 'ethers';
 
 export const handler = (web3, contract) => () => {
+  // console.log('!!!!!contract', contract);
   const swrRes = useSWR(
     () => (contract ? `web3/allNfts` : null),
     async () => {

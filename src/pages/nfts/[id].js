@@ -142,23 +142,24 @@ export default function Nft(props) {
                   </div>
                 </div>
               </div>
-
-              <div className="mb-6 flex space-x-4 justify-center md:justify-start">
-                {/* <Link href="/all-nfts"> */}
-                <button
-                  onClick={() => buyNft(nft.data)}
-                  disabled={busy}
-                  className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
-                >
-                  {/* <a
-                    href="#"
+              {account.data && (
+                <div className="mb-6 flex space-x-4 justify-center md:justify-start">
+                  {/* <Link href="/all-nfts"> */}
+                  <button
+                    onClick={() => buyNft(nft.data)}
+                    disabled={busy}
                     className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
-                    aria-current="page"
-                  > */}
-                  Buy NFT
-                  {/* </a> */}
-                </button>
-              </div>
+                  >
+                    {/* <a
+                  href="#"
+                  className="text-center w-28 border border-gray-400 rounded-full  text-white bg-black px-4 py-2  text-sm font-medium"
+                  aria-current="page"
+                > */}
+                    Buy NFT
+                    {/* </a> */}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
