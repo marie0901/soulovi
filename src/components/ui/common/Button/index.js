@@ -41,32 +41,3 @@ export const Button = React.forwardRef(
   }
 );
 Button.displayName = 'Button';
-// export const Buttonmm   = ({
-//   children,
-//   className,
-//   size = 'xs',
-//   hoverable = true,
-//   variant = 'blue',
-//   rounded = 'full',
-//   // fontFamily = 'mono',
-//   ...rest
-// }) => {
-//   const sizeClass = SIZE[size];
-//   const variants = {
-//     gray: `text-gray-500 border border-gray-400 bg-white ${
-//       hoverable && 'hover:bg-blue-400'
-//     } `,
-//     blue: `text-white border border-ukrblue bg-ukrblue ${
-//       hoverable && 'hover:bg-blue-400'
-//     }`,
-//   };
-
-//   return (
-//     <button
-//       {...rest}
-//       className={`${sizeClass}   disabled:opacity-50 disabled:cursor-not-allowed border rounded-${rounded} ${className} ${variants[variant]}`}
-//     >
-//       {children}
-//     </button>
-//   );
-// };
