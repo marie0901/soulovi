@@ -10,6 +10,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@components/ui/common/Button';
 import Loader from '@components/ui/common/loader';
+import BlockUI from '@components/ui/common/BlockUI';
 import { useRouter } from 'next/router';
 import { withToast } from '@utils/toast';
 import { ethers } from 'ethers';
@@ -54,13 +55,12 @@ export default function Nft(props) {
         }
       );
       let result = await transaction.wait();
-
+      router.push('/all-nfts');
       return result;
     } catch (error) {
       throw new Error(error.message);
     } finally {
       setBusy(false);
-      router.push('/all-nfts');
     }
   }
 
@@ -164,6 +164,7 @@ export default function Nft(props) {
           </div>
         </div>
       </div>
+      <BlockUI blocking={busy} />
     </div>
   );
 }
