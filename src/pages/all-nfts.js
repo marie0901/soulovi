@@ -13,36 +13,38 @@ export default function AllNfts() {
   const { web3, contract, requireInstall } = useWeb3();
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo();
   const { allNfts } = useAllNfts();
-  // console.log('!!!allNfts: ', allNfts);
-
-  return allNfts.data ? (
-    // <div className="container">
+  return (
     <div>
       <div className="pt-4">
         <WalletBar />
       </div>
+      {allNfts.data ? (
+        // <div className="container">
+        <div>
+          <div className="flex px-4 py-4">
+            <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
+              All NFTs
+            </h2>
+            <div className="text-gray-500 text-xs font-mono pl-3 pt-6 tracking-widest align-bottom">
+              {allNfts.data.length} items listed
+            </div>
+          </div>
 
-      <div className="flex px-4 py-4">
-        <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
-          All NFTs
-        </h2>
-        <div className="text-gray-500 text-xs font-mono pl-3 pt-6 tracking-widest align-bottom">
-          {allNfts.data.length} items listed
-        </div>
-      </div>
-
-      <div className="flex justify-center">
-        <div className="px-4" style={{ maxWidth: '1600px' }}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-            {allNfts.data.map((nft, i) => (
-              <CardNft key={i} nft={nft}></CardNft>
-            ))}
+          <div className="flex justify-center">
+            <div className="px-4" style={{ maxWidth: '1600px' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                {allNfts.data.map((nft, i) => (
+                  <CardNft key={i} nft={nft}></CardNft>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <></>
+        // <Loader />
+      )}
     </div>
-  ) : (
-    <Loader />
   );
 }
 

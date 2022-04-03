@@ -70,22 +70,20 @@ export const NavBar = () => {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="ml-3 mr-3 relative">
-              {/* <Link href="/create-nft">
-                <a
-                  href="#"
-                  className=" border border-gray-400 rounded-full  text-gray-500 px-8 py-1  text-xs"
-                  aria-current="page"
-                >
-                  Create
-                </a>
-              </Link> */}
               <Link href="/create-nft">
                 <Button className="mr-2" variant={'gray'}>
                   Create
                 </Button>
               </Link>
-              {/* Connect Button */}
+              {/* {account && account.isAdmin && (
+                <Link href="/create-nft">
+                  <Button className="mr-2" variant={'gray'}>
+                    Create
+                  </Button>
+                </Link>
+              )} */}
 
+              {/* Connect Button */}
               {isLoading ? (
                 <Button disabled={true} onClick={connect}>
                   Loading...
