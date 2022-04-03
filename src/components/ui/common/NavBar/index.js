@@ -70,7 +70,7 @@ export const NavBar = () => {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="ml-3 mr-3 relative">
-              <Link href="/create-nft">
+              {/* <Link href="/create-nft">
                 <a
                   href="#"
                   className=" border border-gray-400 rounded-full  text-gray-500 px-8 py-1  text-xs"
@@ -78,44 +78,35 @@ export const NavBar = () => {
                 >
                   Create
                 </a>
+              </Link> */}
+              <Link href="/create-nft">
+                <Button className="mr-2" variant={'gray'}>
+                  Create
+                </Button>
               </Link>
+              {/* Connect Button */}
+
+              {isLoading ? (
+                <Button disabled={true} onClick={connect}>
+                  Loading...
+                </Button>
+              ) : account.data ? (
+                <Button hoverable={false} className="cursor-default">
+                  Hi there {account.isAdmin && 'Admin'}
+                </Button>
+              ) : requireInstall ? (
+                <Button
+                  onClick={() =>
+                    window.open('https://metamask.io/download.html', '_blank')
+                  }
+                >
+                  Install Metamask
+                </Button>
+              ) : (
+                <Button onClick={connect}>Connect</Button>
+              )}
+              {/* End of Connect Button */}
             </div>
-
-            {/* <button
-              type="button"
-              className=" p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-            >
-              <span className="sr-only">View notifications</span>
-
-              <img
-                className="h-8 w-8 rounded-full"
-                src="/images/wallet1.png"
-                alt=""
-              />
-            </button> */}
-
-            {/* Connect Button */}
-
-            {isLoading ? (
-              <Button disabled={true} onClick={connect}>
-                Loading...
-              </Button>
-            ) : account.data ? (
-              <Button hoverable={false} className="cursor-default">
-                Hi there {account.isAdmin && 'Admin'}
-              </Button>
-            ) : requireInstall ? (
-              <Button
-                onClick={() =>
-                  window.open('https://metamask.io/download.html', '_blank')
-                }
-              >
-                Install Metamask
-              </Button>
-            ) : (
-              <Button onClick={connect}>Connect</Button>
-            )}
-            {/* End of Connect Button */}
 
             {/* <div className="ml-3 relative">
               <div>

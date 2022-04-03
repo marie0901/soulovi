@@ -17,13 +17,11 @@ export const Button = ({
 }) => {
   const sizeClass = SIZE[size];
   const variants = {
-    black: `text-white bg-black ${hoverable && 'hover:bg-[#373737]'}`,
-    white: `text-black bg-white`,
-    blue: `text-white bg-ukrblue ${hoverable && 'hover:bg-blue-400'}`,
-    purple: `text-white bg-indigo-600 ${hoverable && 'hover:bg-indigo-700'}`,
-    red: `text-white bg-red-600 ${hoverable && 'hover:bg-red-700'}`,
-    lightPurple: `text-indigo-700 bg-indigo-100 ${
-      hoverable && 'hover:bg-indigo-200'
+    gray: `text-gray-500 border border-gray-400 bg-white ${
+      hoverable && 'hover:bg-blue-400'
+    } `,
+    blue: `text-white border border-ukrblue bg-ukrblue ${
+      hoverable && 'hover:bg-blue-400'
     }`,
   };
 
