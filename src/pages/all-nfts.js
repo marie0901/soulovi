@@ -16,7 +16,8 @@ export default function AllNfts() {
   // console.log('!!!allNfts: ', allNfts);
 
   return allNfts.data ? (
-    <div className="container">
+    // <div className="container">
+    <div>
       <div className="pt-4">
         <WalletBar />
       </div>

@@ -27,6 +27,7 @@ module.exports = {
       blue: colors.blue,
       ukrblue: '#4378ff',
       ukryellow: '#ffd600',
+      ukrgray: '#F5F5F5',
     },
     maxWidth: {
       '8xl': '88rem',

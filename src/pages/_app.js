@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Layout>
       <ToastContainer />
-      <div className="flex flex-grow">
+      <div className="flex flex-grow justify-center">
         <Component {...pageProps} />
       </div>
     </Layout>

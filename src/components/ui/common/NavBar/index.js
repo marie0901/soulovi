@@ -80,7 +80,8 @@ export const NavBar = () => {
                 </a>
               </Link>
             </div>
-            <button
+
+            {/* <button
               type="button"
               className=" p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
             >
@@ -91,9 +92,10 @@ export const NavBar = () => {
                 src="/images/wallet1.png"
                 alt=""
               />
-            </button>
+            </button> */}
 
             {/* Connect Button */}
+
             {isLoading ? (
               <Button disabled={true} onClick={connect}>
                 Loading...
@@ -115,7 +117,7 @@ export const NavBar = () => {
             )}
             {/* End of Connect Button */}
 
-            <div className="ml-3 relative">
+            {/* <div className="ml-3 relative">
               <div>
                 <button
                   type="button"
@@ -132,7 +134,7 @@ export const NavBar = () => {
                   />
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
