@@ -1,9 +1,9 @@
-require("@nomiclabs/hardhat-waffle");
-require("dotenv").config();
-require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-waffle');
+require('dotenv').config();
+require('@openzeppelin/hardhat-upgrades');
 
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
       chainId: 1337,
@@ -19,7 +19,7 @@ module.exports = {
     },
   },
   solidity: {
-    version: "0.8.4",
+    version: '0.8.4',
     settings: {
       optimizer: {
         enabled: true,

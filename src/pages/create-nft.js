@@ -53,12 +53,6 @@ export default function CreateNtf() {
     }
   }
 
-  const handleDelete = () => {
-    setFile(null);
-    setImgSrc(null);
-    URL.revokeObjectURL(imgSrc);
-  };
-
   async function uploadToIPFS() {
     // console.log('!!!!!!! formInput', formInput);
     const { name, description, artist, price } = formInput;
@@ -107,12 +101,12 @@ export default function CreateNtf() {
       `${url}`,
       price
     );
-    // console.log("!!!!voucher", voucher);
+    // console.log('!!!!voucher', voucher);
 
-    let listingPrice = await contract.getListingPrice();
-    listingPrice = listingPrice.toString();
+    // let listingPrice = await contract.getListingPrice();
+    // listingPrice = listingPrice.toString();
     let transaction = await contract.createToken(voucher, {
-      value: listingPrice,
+      value: 0,
     });
     await transaction.wait();
     router.push('/');
