@@ -1,6 +1,6 @@
 // const hre = require('hardhat');
 
-const proxyAddress = '0xa1DbFFBEd3B2Fc2B990737E8e39101829cB7e356';
+const proxyAddress = '0x3d41276834c063b018cD8da33eB0C32C00Ee2c06';
 
 async function main() {
   console.log(proxyAddress, ' original NFTMarketplace(proxy) address');
