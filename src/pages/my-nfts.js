@@ -5,6 +5,7 @@ import Web3Modal from 'web3modal';
 import { useRouter } from 'next/router';
 
 import { BaseLayout } from '@components/ui/layout';
+import { CardNft } from '@components/ui/card-nft';
 
 import { marketplaceAddress } from '../../config';
 
@@ -68,24 +69,15 @@ export default function MyAssets() {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="p-4">
+    <div className="flex justify-center flex-col">
+      <div className="text-ukrblue">
+        !!! TODO: The page is under development. Please clarify the
+        requirenments!
+      </div>
+      <div className="">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
-            <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <img src={nft.image} className="rounded" />
-              <div className="p-4 bg-black">
-                <p className="text-2xl font-bold text-white">
-                  Price - {nft.price} Eth
-                </p>
-                <button
-                  className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
-                  onClick={() => listNFT(nft)}
-                >
-                  List
-                </button>
-              </div>
-            </div>
+            <CardNft key={i} nft={nft}></CardNft>
           ))}
         </div>
       </div>

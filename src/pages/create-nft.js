@@ -115,6 +115,10 @@ export default function CreateNtf() {
   return (
     <div className="w-full">
       <Return />
+      <div className="text-ukrblue">
+        !!! TODO: The page is under development. Please clarify the
+        requirenments!
+      </div>
       <div className="container mx-auto h-full flex flex-row">
         <div className="w-[43rem] flex h-[43.75rem] flex-col pr-[2.5rem] border-box border-r border-stone-[#D3D6DB]">
           <div className="w-full h-full overflow-hidden rounded-2xl border border-stone-[#D3D6DB] bg-[#FAFAFA]">
