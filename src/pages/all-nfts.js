@@ -17,12 +17,10 @@ export default function AllNfts() {
     <div className="flex-grow">
       {allNfts.data ? (
         <div>
-          <div className="flex  py-4">
-            <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
-              All NFTs
-            </h2>
-            <div className="text-gray-500 text-xs font-mono pl-3 pt-6 tracking-widest align-bottom">
-              {allNfts.data.length} items listed
+          <div className="flex  py-4 font-lato">
+            <h2 className="font-bold leading-tight text-3xl ">All NFTs</h2>
+            <div className=" pl-3   font-mono text-xs font-normal flex justify-end flex-col pb-1">
+              <div className="flex ">{allNfts.data.length} items listed</div>
             </div>
           </div>
           <WalletBar />
@@ -39,7 +37,7 @@ export default function AllNfts() {
         </div>
       ) : (
         <div>
-          <div className="flex  py-4">
+          <div className="flex  py-4 font-lato">
             <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
               All NFTs
             </h2>
