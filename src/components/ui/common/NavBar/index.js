@@ -10,8 +10,10 @@ export const NavBar = () => {
   const { pathname } = useRouter();
 
   return (
-    <nav className="border-b">
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    // <nav className=" py-2 " style={{ boxShadow: '0px 2px rgba(0, 0, 0, 0.1)' }}>
+    <nav className=" py-2 shadow-[0_2px_rgba(0,0,0,0.1)]">
+      {/* 0px 2px 10px rgba(0, 0, 0, 0.1) */}
+      <div className="mx-auto">
         <div className="relative flex items-center justify-between h-12">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button

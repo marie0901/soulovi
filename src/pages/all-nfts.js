@@ -14,14 +14,10 @@ export default function AllNfts() {
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo();
   const { allNfts } = useAllNfts();
   return (
-    <div>
-      <div className="pt-4">
-        <WalletBar />
-      </div>
+    <div className="flex-grow">
       {allNfts.data ? (
-        // <div className="container">
         <div>
-          <div className="flex px-4 py-4">
+          <div className="flex  py-4">
             <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
               All NFTs
             </h2>
@@ -29,9 +25,10 @@ export default function AllNfts() {
               {allNfts.data.length} items listed
             </div>
           </div>
-
-          <div className="flex justify-center">
-            <div className="px-4" style={{ maxWidth: '1600px' }}>
+          <WalletBar />
+          <div className="flex justify-center flex-col">
+            <div className="">
+              {/* <div className="px-4" style={{ maxWidth: '1600px' }}> */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                 {allNfts.data.map((nft, i) => (
                   <CardNft key={i} nft={nft}></CardNft>
@@ -41,8 +38,15 @@ export default function AllNfts() {
           </div>
         </div>
       ) : (
-        <></>
-        // <Loader />
+        <div>
+          <div className="flex  py-4">
+            <h2 className="font-medium leading-tight text-4xl mt-0 mb-2 text-gray-800">
+              All NFTs
+            </h2>
+          </div>
+          <WalletBar />
+          {/* <Loader /> */}
+        </div>
       )}
     </div>
   );
