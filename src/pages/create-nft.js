@@ -98,8 +98,8 @@ export default function CreateNtf() {
     const tokenId = await contract.getCurrentTokenId();
     const voucher = await lazyminter.createVoucher(
       +tokenId + 1,
-      `${url}`,
-      price
+      price,
+      `${url}`
     );
     // console.log('!!!!voucher', voucher);
 

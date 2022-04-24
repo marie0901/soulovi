@@ -21,12 +21,12 @@ async function main() {
     ' getAdminAddress'
   );
 
-  // fs.writeFileSync(
-  //   './config.js',
-  //   `
-  // export const marketplaceAddress = "${nftMarketplace.address}"
-  // `
-  // );
+  fs.writeFileSync(
+    './config.js',
+    `
+  export const marketplaceAddress = "${nftMarketplace.address}"
+  `
+  );
 }
 
 main()
