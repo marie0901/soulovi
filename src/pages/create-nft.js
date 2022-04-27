@@ -55,14 +55,22 @@ export default function CreateNtf() {
 
   async function uploadToIPFS() {
     // console.log('!!!!!!! formInput', formInput);
-    const { name, description, artist, price } = formInput;
+    const { name, description, artistName, artistAddress, price } = formInput;
     // console.log('!!!!!!! artist', artist);
-    if (!name || !description || !artist || !price || !fileUrl) return;
+    if (
+      !name ||
+      !description ||
+      !artistName ||
+      !artistAddress ||
+      !price ||
+      !fileUrl
+    )
+      return;
     /* first, upload metadata to IPFS */
     const data = JSON.stringify({
       name,
       description,
-      artist,
+      artist: artistName,
       image: fileUrl,
     });
 
@@ -99,12 +107,12 @@ export default function CreateNtf() {
     const voucher = await lazyminter.createVoucher(
       +tokenId + 1,
       price,
-      `${url}`
+      `${url}`,
+      // TODO here the creator address from the form
+      formInput.artistAddress
     );
     // console.log('!!!!voucher', voucher);
 
-    // let listingPrice = await contract.getListingPrice();
-    // listingPrice = listingPrice.toString();
     let transaction = await contract.createToken(voucher, {
       value: 0,
     });
@@ -116,8 +124,11 @@ export default function CreateNtf() {
     <div className="w-full">
       <Return />
       <div className="text-ukrblue">
-        !!! TODO: The page is under development. Please clarify the
-        requirenments!
+        <p>!!! TODO: The page is under development.</p>
+        <p className="text-ukryellow">
+          Please be carefull when input data and confirm in Metamask!{' '}
+        </p>
+        <p>The system checks will be added later</p>
       </div>
       <div className="container mx-auto h-full flex flex-row">
         <div className="w-[43rem] flex h-[43.75rem] flex-col pr-[2.5rem] border-box border-r border-stone-[#D3D6DB]">
@@ -173,13 +184,25 @@ export default function CreateNtf() {
           </div>
           <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
             <input
-              placeholder="Artist"
+              placeholder="Artist display name"
               className="mb-[1.5rem] border rounded-lg p-4"
               onChange={e =>
-                updateFormInput({ ...formInput, artist: e.target.value })
+                updateFormInput({ ...formInput, artistName: e.target.value })
               }
             />
           </div>
+
+          <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+            <input
+              placeholder="Artist wallet address"
+              className="mb-[1.5rem] border rounded-lg p-4"
+              // TODO add check if it is a valid address
+              onChange={e =>
+                updateFormInput({ ...formInput, artistAddress: e.target.value })
+              }
+            />
+          </div>
+
           <div className="flex flex-col justify-between font-lato">
             <div className="flex grow-1 mb-[1rem]  text-xl">
               <InputAfter

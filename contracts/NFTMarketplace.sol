@@ -28,6 +28,8 @@ contract NFTMarketplace is ERC721URIStorageUpgradeable, EIP712Upgradeable, Acces
         uint256 price;
         // The metadata URI to associate with this token.
         string uri;
+        // Address of the creator.
+        address creator;
         // The EIP-712 signature of all other fields in the NFTVoucher struct. For a voucher to be valid, it must be signed by an account with the MINTER_ROLE.
         bytes signature;
     }
@@ -62,20 +64,7 @@ contract NFTMarketplace is ERC721URIStorageUpgradeable, EIP712Upgradeable, Acces
         _setupRole(MINTER_ROLE, minter);
         __ERC721_init("UkrainianArtistsNFT", "SLV");
         __EIP712_init(SIGNING_DOMAIN, SIGNATURE_VERSION);
-
-          // listingPrice = 0.00025 ether;
-          // owner = payable(msg.sender);
     }
-
-    // /* Updates the listing price of the contract */
-    // function updateListingPrice(uint _listingPrice) public payable {
-    //   require(owner == msg.sender, "Only marketplace owner can update listing price.");
-    //   listingPrice = _listingPrice;
-    // }
-    // /* Returns the listing price of the contract */
-    // function getListingPrice() public view returns (uint256) {
-    //   return listingPrice;
-    // }
 
     /* Returns the current tokenId */
     function getCurrentTokenId() public view returns (uint256) {
@@ -97,33 +86,28 @@ contract NFTMarketplace is ERC721URIStorageUpgradeable, EIP712Upgradeable, Acces
       _tokenIds.increment();
       uint256 newTokenId = _tokenIds.current();
 
-      // _mint(msg.sender, newTokenId);
-      // _setTokenURI(newTokenId, tokenURI);
-      createMarketItem(newTokenId, voucher.price, voucher.uri);
+      createMarketItem(newTokenId, voucher.price, voucher.uri, voucher.creator);
       return newTokenId;
     }
 
     function createMarketItem(
       uint256 tokenId,
       uint256 price,
-      string memory tokenURI
+      string memory tokenURI,
+      address creator
     ) private {
-      // require(price > 0, "Price must be at least 1 wei");
-      // require(msg.value == listingPrice, "Price must be equal to listing price");
-
       idToMarketItem[tokenId] =  MarketItem(
         tokenId,
-        payable(msg.sender),
+        payable(creator),
         payable(address(this)),
         price,
         tokenURI,
         false
       );
 
-      // _transfer(msg.sender, address(this), tokenId);
       emit MarketItemCreated(
         tokenId,
-        msg.sender,
+        creator,
         address(this),
         price,
         tokenURI,
@@ -238,10 +222,11 @@ contract NFTMarketplace is ERC721URIStorageUpgradeable, EIP712Upgradeable, Acces
   // Returns a hash of the given NFTVoucher, prepared using EIP712 typed data hashing rules.
   function _hash(NFTVoucher calldata voucher) internal view returns (bytes32) {
     return _hashTypedDataV4(keccak256(abi.encode(
-      keccak256("NFTVoucher(uint256 tokenId,uint256 price,string uri)"),
+      keccak256("NFTVoucher(uint256 tokenId,uint256 price,string uri,address creator)"),
       voucher.tokenId,
       voucher.price,
-      keccak256(bytes(voucher.uri))
+      keccak256(bytes(voucher.uri)),
+      voucher.creator
     )));
   }
 

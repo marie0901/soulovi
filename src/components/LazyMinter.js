@@ -22,14 +22,20 @@ class LazyMinter {
    *
    * @returns {NFTVoucher}
    */
-  async createVoucher(tokenId, price, uri) {
-    const voucher = { tokenId, price, uri };
+  async createVoucher(tokenId, price, uri, creator) {
+    const voucher = {
+      tokenId,
+      price,
+      uri,
+      creator,
+    };
     const domain = await this._signingDomain();
     const types = {
       NFTVoucher: [
         { name: 'tokenId', type: 'uint256' },
         { name: 'price', type: 'uint256' },
         { name: 'uri', type: 'string' },
+        { name: 'creator', type: 'address' },
       ],
     };
 
