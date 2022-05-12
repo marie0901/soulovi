@@ -1,12 +1,12 @@
-import { useAccount, useNft } from '@components/hooks/web3';
+import { useAccount, useNft } from '@components/hooks/ethers';
 import { useWeb3 } from '@components/providers';
 import { useState } from 'react';
 
-import { useAllNfts, useWalletInfo } from '@components/hooks/web3';
+import { useAllNfts, useWalletInfo } from '@components/hooks/ethers';
 import { BaseLayout } from '@components/ui/layout';
 
 import Loader from '@components/ui/common/loader';
-import { WalletBar } from '@components/ui/web3';
+import { WalletBar } from '@components/ui/ethers';
 import { CardNft } from '@components/ui/card-nft';
 import { Return } from '@components/ui/common/Return';
 
