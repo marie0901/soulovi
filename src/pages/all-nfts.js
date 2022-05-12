@@ -2,7 +2,7 @@ import { useEthers } from '@components/providers';
 // import { useAllNfts, useWalletInfo } from '@components/hooks/web3';
 // import { WalletBar } from '@components/ui/web3';
 import { useAllNfts, useWalletInfo } from '@components/hooks/ethers';
-import { WalletBar } from '@components/ui/web3';
+import { WalletBar } from '@components/ui/ethers';
 
 import { BaseLayout } from '@components/ui/layout';
 
@@ -28,7 +28,7 @@ export default function AllNfts() {
               <div className="flex ">{allNfts.data.length} items listed</div>
             </div>
           </div>
-          {/* <WalletBar /> */}
+          <WalletBar />
           <div className="flex justify-center flex-col">
             <div className="">
               {/* <div className="px-4" style={{ maxWidth: '1600px' }}> */}
@@ -47,7 +47,7 @@ export default function AllNfts() {
               All NFTs
             </h2>
           </div>
-          {/* <WalletBar /> */}
+          <WalletBar />
           {/* <Loader /> */}
         </div>
       )}
