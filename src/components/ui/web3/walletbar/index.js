@@ -1,4 +1,5 @@
-import { useWalletInfo } from '@components/hooks/web3';
+// import { useWalletInfo } from '@components/hooks/web3';
+import { useWalletInfo } from '@components/hooks/ethers';
 import { useWeb3 } from '@components/providers';
 import { Button } from '@components/ui/common/Button';
 

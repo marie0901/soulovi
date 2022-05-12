@@ -1,22 +1,16 @@
 import { FileUploader } from 'react-drag-drop-files';
-
 import Image from 'next/image';
-
-import { LazyMinter } from '@components/LazyMinter';
-import NFTMarketplace from '@utils/NFTMarketplace.json';
-import { ethers } from 'ethers';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Web3Modal from 'web3modal';
-import { marketplaceAddress } from '../../config';
 
 import { BaseLayout } from '@components/ui/layout';
 import { Button } from '@components/ui/common/Button';
 import { Return } from '@components/ui/common/Return';
 import { InputAfter } from '@components/ui/common/CustomInput';
-
+import { LazyMinter } from '@components/LazyMinter';
 import { FileContainer, Overlay } from '@styles/pages/create-ntf';
+import { useEthers } from '@components/providers';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
@@ -24,6 +18,7 @@ const fileTypes = ['jpeg', 'jpg', 'png', 'gif'];
 
 export default function CreateNtf() {
   const router = useRouter();
+  const { ethers, contract, signer } = useEthers();
   const [fileUrl, setFileUrl] = useState(null);
 
   const [file, setFile] = useState(null);
@@ -88,18 +83,9 @@ export default function CreateNtf() {
 
   async function listNFTForSale() {
     const url = await uploadToIPFS();
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
 
     /* create the NFT */
     const price = ethers.utils.parseEther(formInput.price);
-    let contract = new ethers.Contract(
-      marketplaceAddress,
-      NFTMarketplace.abi,
-      signer
-    );
 
     /* lazy minting */
     const lazyminter = new LazyMinter({ contract, signer });
@@ -108,10 +94,8 @@ export default function CreateNtf() {
       +tokenId + 1,
       price,
       `${url}`,
-      // TODO here the creator address from the form
       formInput.artistAddress
     );
-    // console.log('!!!!voucher', voucher);
 
     let transaction = await contract.createToken(voucher, {
       value: 0,

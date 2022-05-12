@@ -1,12 +1,14 @@
-import { useWeb3 } from '@components/providers';
+import { useEthers } from '@components/providers';
 import Link from 'next/link';
 import { Button } from '@components/ui/common/Button';
-import { useAccount } from '@components/hooks/web3';
+import { useAccount } from '@components/hooks/ethers';
 import { useRouter } from 'next/router';
 
 export const NavBar = () => {
-  const { connect, isLoading, requireInstall } = useWeb3();
+  const { connect, isLoading, requireInstall, requireConnectMetamask } =
+    useEthers();
   const { account } = useAccount();
+  // console.log('!!!!account', account);
   const { pathname } = useRouter();
 
   return (

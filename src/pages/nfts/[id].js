@@ -1,5 +1,6 @@
-import { useAccount, useNft } from '@components/hooks/web3';
-import { useWeb3 } from '@components/providers';
+import { useAccount, useNft } from '@components/hooks/ethers';
+
+import { useEthers } from '@components/providers';
 import { useState } from 'react';
 // import { Message, Modal } from "@components/ui/common";
 
@@ -20,7 +21,7 @@ import { marketplaceAddress } from 'config';
 import NFTMarketplace from '@utils/NFTMarketplace.json';
 
 export default function Nft(props) {
-  const { isLoading } = useWeb3();
+  const { isLoading } = useEthers();
   const { account } = useAccount();
   const [busy, setBusy] = useState(false);
 
