@@ -16,9 +16,7 @@ export default function ArtistNfts(props) {
         <div>
           <div className="flex  py-4">
             <Return />
-            <div className="pl-4 font-bold leading-tight text-3xl">
-              {props.slug}
-            </div>
+            <div className="pl-4 leading-tight text-3xl">{props.slug}</div>
             <div className="pl-4   font-mono text-xs font-normal  pb-1 flex">
               <div className="flex justify-end flex-col">
                 <a href="#!" className="mr-6 text-gray-600">

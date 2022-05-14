@@ -19,9 +19,7 @@ export const withToast = async promise => {
         render({ data }) {
           return (
             <div>
-              <p className="font-bold">
-                Tx: {data.transactionHash.slice(0, 20)}...
-              </p>
+              <p className="">Tx: {data.transactionHash.slice(0, 20)}...</p>
               <p>Has been succesfuly processed.</p>
               <a
                 href={`https://ropsten.etherscan.io/tx/${data.transactionHash}`}
