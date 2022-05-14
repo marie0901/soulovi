@@ -147,7 +147,7 @@ export default function CreateNtf() {
           </div>
         </div>
         <div className="w-[43rem] flex h-[43.75rem] flex-col pl-[2.5rem] border-box">
-          <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+          <div className="text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
             <input
               placeholder="Item Name"
               className="mb-[1.5rem] border rounded-lg p-4"
@@ -166,7 +166,7 @@ export default function CreateNtf() {
               }
             />
           </div>
-          <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+          <div className="text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
             <input
               placeholder="Artist display name"
               className="mb-[1.5rem] border rounded-lg p-4"
@@ -176,7 +176,7 @@ export default function CreateNtf() {
             />
           </div>
 
-          <div className="font-lato text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
+          <div className="text-xl flex flex-col border-box mb-[1.5rem] border-b border-dashed border-stone-[#D3D6DB]">
             <input
               placeholder="Artist wallet address"
               className="mb-[1.5rem] border rounded-lg p-4"
@@ -187,7 +187,7 @@ export default function CreateNtf() {
             />
           </div>
 
-          <div className="flex flex-col justify-between font-lato">
+          <div className="flex flex-col justify-between">
             <div className="flex grow-1 mb-[1rem]  text-xl">
               <InputAfter
                 after={'ETH'}

@@ -14,7 +14,7 @@ export default function ArtistNfts(props) {
     <div className="flex-grow">
       {allNfts.data ? (
         <div>
-          <div className="flex  py-4 font-lato">
+          <div className="flex  py-4">
             <Return />
             <div className="pl-4 font-bold leading-tight text-3xl">
               {props.slug}
