@@ -1,6 +1,4 @@
 import { useEthers } from '@components/providers';
-// import { useAllNfts, useWalletInfo } from '@components/hooks/web3';
-// import { WalletBar } from '@components/ui/web3';
 import { useAllNfts, useWalletInfo } from '@components/hooks/ethers';
 import { WalletBar } from '@components/ui/ethers';
 
@@ -14,7 +12,6 @@ if (typeof window === 'undefined') {
 }
 
 export default function AllNfts() {
-  // const { web3, contract, requireInstall } = useWeb3();
   const { ethers, contract, signer } = useEthers();
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo();
   const { allNfts } = useAllNfts();

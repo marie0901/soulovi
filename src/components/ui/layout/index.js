@@ -8,7 +8,7 @@ export const BaseLayout = ({ children }) => {
       <div className="max-w-9xl mx-auto px-4 flex flex-col min-h-screen">
         <NavBar />
         <div className="flex flex-grow flex-col justify-center">{children}</div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </EthersProvider>
     // </Web3Provider>

@@ -26,7 +26,7 @@ export default function Home() {
     return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
   return (
     <div className="container px-6 mx-auto flex flex-col justify-center">
-      <div className="flex flex-col my-6">
+      <div className="flex flex-col pt-6">
         <div className="flex">
           <div className=" font-hanson text-7xl text-ukrblue tracking-wider">
             SUPPORT
@@ -40,13 +40,24 @@ export default function Home() {
             <div className="flex justify-center">
               <div className="p-4 rounded-lg shadow-lg bg-white max-w-sm">
                 <a href="#!">
-                  <img className="rounded-t-lg" src="/images/nft0.png" alt="" />
+                  <img
+                    className="rounded-t-lg aspect-square"
+                    src="/images/backhomes.jpg"
+                    alt=""
+                  />
                 </a>
-                <div className="p-6">
+                <div className="pt-4">
                   <div className="text-gray-900 text-xl font-medium mb-2">
                     Stand with Ukraine
                   </div>
-                  <p className="text-gray-400 font-mono text-xs">Axionov</p>
+                  <a
+                    href=" https://www.instagram.com/eduard_ov"
+                    className="  text-gray-400 font-mono text-xs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    eduard_ov
+                  </a>
                 </div>
               </div>
             </div>
@@ -56,7 +67,7 @@ export default function Home() {
             <div className="font-hanson text-7xl text-ukryellow tracking-wider">
               UKRAINE
             </div>
-            <div className="mt-12 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
+            <div className="mt-16 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
               <p className="text-xs">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Distinctio est ab iure inventore dolorum consectetur? Molestiae

@@ -8,12 +8,11 @@ export const NavBar = () => {
   const { connect, isLoading, requireInstall, requireConnectMetamask } =
     useEthers();
   const { account } = useAccount();
-  // console.log('!!!!account', account);
   const { pathname } = useRouter();
 
   return (
     // <nav className=" py-2 " style={{ boxShadow: '0px 2px rgba(0, 0, 0, 0.1)' }}>
-    <nav className=" py-2 shadow-[0_2px_rgba(0,0,0,0.1)]">
+    <nav className=" shadow-[0_2px_rgba(0,0,0,0.1)]">
       {/* 0px 2px 10px rgba(0, 0, 0, 0.1) */}
       <div className="mx-auto">
         <div className="relative flex items-center justify-between h-12">
@@ -79,13 +78,6 @@ export const NavBar = () => {
                   Create
                 </Button>
               </Link>
-              {/* {account && account.isAdmin && (
-                <Link href="/create-nft">
-                  <Button className="mr-2" variant={'gray'}>
-                    Create
-                  </Button>
-                </Link>
-              )} */}
 
               {/* Connect Button */}
               {isLoading ? (
@@ -109,25 +101,6 @@ export const NavBar = () => {
               )}
               {/* End of Connect Button */}
             </div>
-
-            {/* <div className="ml-3 relative">
-              <div>
-                <button
-                  type="button"
-                  className=" flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="/images/user1.png"
-                    alt=""
-                  />
-                </button>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

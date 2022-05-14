@@ -24,10 +24,6 @@ const providerOptions = {
 const setListeners = () => {
   if (window.ethereum) {
     const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log('!!!!!!metamaskProvider', metamaskProvider);
-    // metamaskProvider.provider.on('accountsChanged', _ =>
-    //   window.location.reload()
-    // );
     metamaskProvider.provider.on('chainChanged', _ => window.location.reload());
   }
 };
@@ -91,9 +87,10 @@ export default function EthersProvider({ children }) {
     const testWeb3Modal = async () => {
       const provider = new ethers.providers.AlchemyProvider(
         'rinkeby',
+        // !!! TODO: move to the env variables
         '-mD-41-Z7FEHWYFciR3Nt5GYJLwxskj7'
       );
-      console.log('!!!!alchemyProvider', provider);
+      // console.log('!!!!alchemyProvider', provider);
 
       const contract = new ethers.Contract(
         marketplaceAddress,
