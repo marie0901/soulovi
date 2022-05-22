@@ -7,7 +7,7 @@ import { handler as createNftHook } from './useNft';
 export const setupHooks = ({ web3, provider, contract }) => {
   return {
     useAccount: createAccountHook(web3, provider),
-    useNetwork: createNetworkHook(web3),
+    useNetwork: createNetworkHook(provider),
     useAllNfts: createAllNftsHook(web3, contract),
     useNft: createNftHook(web3, contract),
   };

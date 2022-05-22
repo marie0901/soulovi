@@ -13,17 +13,16 @@ const NETWORKS = {
 
 const targetNetwork = NETWORKS[process.env.NEXT_PUBLIC_TARGET_CHAIN_ID];
 
-export const handler = ethers => () => {
+export const handler = provider => () => {
   const { data, ...rest } = useSWR(
-    () => (web3 ? 'web3/network' : null),
+    () => (provider ? 'provider/network' : null),
     async () => {
-      const chainId = await ethers.getChainId();
-
-      if (!chainId) {
+      const network = await provider.getNetwork();
+      if (!network) {
         throw new Error('Cannot retreive network. Please refresh the browser.');
       }
 
-      return NETWORKS[chainId];
+      return NETWORKS[network.chainId];
     }
   );
 
