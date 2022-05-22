@@ -31,11 +31,7 @@ export const NavBar = () => {
             >
               <span className="sr-only">Open main menu</span>
 
-              <img
-                class="w-8 h-8 rounded-full"
-                src="images/wallet1.png"
-                alt="open menu"
-              ></img>
+              <img src="images/wallet1.png" alt="open menu"></img>
             </button>
           </div>
           <div className="p-2 flex-1 flex sm:items-stretch sm:justify-start">
