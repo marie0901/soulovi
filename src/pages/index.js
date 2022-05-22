@@ -99,7 +99,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex  flex-col pt-6">
+      <div className="flex sm:hidden flex-col pt-6">
         <div className="flex flex-col ">
           <div className="text-5xl font-hanson text-ukrblue tracking-wider">
             SUPPORT
