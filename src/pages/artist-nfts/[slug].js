@@ -14,10 +14,10 @@ export default function ArtistNfts(props) {
     <div className="flex-grow">
       {allNfts.data ? (
         <div>
-          <div className="flex  py-4">
+          <div className="flex  py-4 mx-4 sm:mx-0">
             <Return />
             <div className="pl-4 leading-tight text-3xl">{props.slug}</div>
-            <div className="pl-4   font-mono text-xs font-normal  pb-1 flex">
+            <div className="pl-4   font-mono text-xs font-normal  pb-1 hidden sm:flex">
               <div className="flex justify-end flex-col">
                 <a href="#!" className="mr-6 text-gray-600">
                   Instagram

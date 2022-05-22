@@ -4,11 +4,15 @@ import { Button } from '@components/ui/common/Button';
 import { useAccount } from '@components/hooks/ethers';
 import { useRouter } from 'next/router';
 
+import { useState } from 'react'; // import state
+
 export const NavBar = () => {
   const { connect, isLoading, requireInstall, requireConnectMetamask } =
     useEthers();
   const { account } = useAccount();
-  const { pathname } = useRouter();
+  // const { pathname } = useRouter();
+
+  const [isNavOpen, setIsNavOpen] = useState(false); // initiate isNavOpen state with false
 
   return (
     // <nav className=" py-2 " style={{ boxShadow: '0px 2px rgba(0, 0, 0, 0.1)' }}>
@@ -16,17 +20,25 @@ export const NavBar = () => {
       {/* 0px 2px 10px rgba(0, 0, 0, 0.1) */}
       <div className="mx-auto">
         <div className="relative flex items-center justify-between h-12">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="p-2 "
               aria-controls="mobile-menu"
+              data-dropdown-toggle="mobile-menu"
               aria-expanded="false"
+              onClick={() => setIsNavOpen(prev => !prev)}
             >
               <span className="sr-only">Open main menu</span>
+
+              <img
+                class="w-8 h-8 rounded-full"
+                src="images/wallet1.png"
+                alt="open menu"
+              ></img>
             </button>
           </div>
-          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="p-2 flex-1 flex sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
                 <a aria-label="Home">
@@ -71,7 +83,7 @@ export const NavBar = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="hidden absolute inset-y-0 right-0 sm:flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="ml-3 mr-3 relative">
               <Link href="/create-nft">
                 <Button className="mr-2" variant={'gray'}>
@@ -105,36 +117,67 @@ export const NavBar = () => {
         </div>
       </div>
 
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 space-y-1">
-          <a
-            href="#"
-            className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-            aria-current="page"
-          >
-            Dashboard
-          </a>
+      <div
+        className="sm:hidden"
+        id="mobile-menu"
+        onClick={() => setIsNavOpen(prev => !prev)} // toggle isNavOpen state on click
+      >
+        {/* <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}> */}
+        <div className={isNavOpen ? 'flex' : 'hidden'}>
+          {/* <div className={isNavOpen ? 'flex' : 'flex'}> */}
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link href="/all-nfts">
+              <a
+                href="#"
+                className=" block px-3 py-2 text-gray-300 hover:text-gray-700 rounded-md text-sm "
+                aria-current="page"
+              >
+                All NFTs
+              </a>
+            </Link>
 
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Team
-          </a>
+            <Link href="/my-nfts">
+              <a
+                href="#"
+                className="block px-3 py-2 text-gray-300 hover:text-gray-700 rounded-md text-sm "
+                aria-current="page"
+              >
+                My NFTs
+              </a>
+            </Link>
 
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Projects
-          </a>
+            <Link href="/create-nft">
+              <a
+                href="#"
+                className="block px-3 py-2 text-gray-300 hover:text-gray-700 rounded-md text-sm "
+                aria-current="page"
+              >
+                Create
+              </a>
+            </Link>
 
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Calendar
-          </a>
+            {/* Connect Button */}
+            {isLoading ? (
+              <Button disabled={true} onClick={connect}>
+                Loading...
+              </Button>
+            ) : account.data ? (
+              <Button hoverable={false} className="cursor-default">
+                Hi there {account.isAdmin && 'Admin'}
+              </Button>
+            ) : requireInstall ? (
+              <Button
+                onClick={() =>
+                  window.open('https://metamask.io/download.html', '_blank')
+                }
+              >
+                Install Metamask
+              </Button>
+            ) : (
+              <Button onClick={connect}>Connect</Button>
+            )}
+            {/* End of Connect Button */}
+          </div>
         </div>
       </div>
     </nav>

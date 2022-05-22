@@ -5,7 +5,8 @@ export const BaseLayout = ({ children }) => {
   return (
     // <Web3Provider>
     <EthersProvider>
-      <div className="max-w-9xl mx-auto px-4 flex flex-col min-h-screen">
+      <div className="overflow-hidden max-w-9xl mx-auto sm:px-4 flex flex-col min-h-screen">
+        {/* <div className="container overflow-hidden"> */}
         <NavBar />
         <div className="flex flex-grow flex-col justify-center">{children}</div>
         <Footer />

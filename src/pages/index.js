@@ -25,8 +25,8 @@ export default function Home() {
   if (loadingState === 'loaded' && !nfts.length)
     return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
   return (
-    <div className="container px-6 mx-auto flex flex-col justify-center">
-      <div className="flex flex-col pt-6">
+    <div className="container px-2 sm:px-6 mx-auto flex flex-col justify-center">
+      <div className="hidden sm:flex flex-col pt-6">
         <div className="flex">
           <div className=" font-hanson text-7xl text-ukrblue tracking-wider">
             SUPPORT
@@ -94,6 +94,57 @@ export default function Home() {
                   Create
                 </a>
               </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex  flex-col pt-6">
+        <div className="flex flex-col ">
+          <div className="text-5xl font-hanson text-ukrblue tracking-wider">
+            SUPPORT
+          </div>
+          <div className=" text-5xl font-hanson text-ukryellow">UKRAINE</div>
+          <div className="text-gray-500 text-xs font-mono pt-2 tracking-widest">
+            &#40;Non-Profit Platform&#41;
+          </div>
+        </div>
+        <div className="flex flex-wrap">
+          <div className="grow-0 shrink-0 basis-auto w-full md:w-3/12 lg:w-4/12">
+            <div className="flex justify-center">
+              <div className="p-2 rounded-lg shadow-lg bg-white max-w-sm">
+                <a href="#!">
+                  <img
+                    className="rounded-t-lg aspect-square"
+                    src="/images/backhomes.jpg"
+                    alt=""
+                  />
+                </a>
+                <div className="pt-4">
+                  <div className="text-gray-900 text-xl font-medium mb-2">
+                    Stand with Ukraine
+                  </div>
+                  <a
+                    href=" https://www.instagram.com/eduard_ov"
+                    className="  text-gray-400 font-mono text-xs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    eduard_ov
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12 md:pl-12 text-center md:text-left">
+            <div className="mt-4 grow-0 shrink-0 basis-auto w-full md:w-9/12 lg:w-8/12">
+              <p className="text-xs">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Distinctio est ab iure inventore dolorum consectetur? Molestiae
+                aperiam atque quasi consequatur aut? Repellendus alias dolor ad
+                nam, soluta distinctio quis accusantium!
+              </p>
             </div>
           </div>
         </div>
